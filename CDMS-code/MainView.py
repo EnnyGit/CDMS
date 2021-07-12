@@ -6,8 +6,6 @@ def Main():
         Login()
         MainMenu()
         
-
-
 def Login():
     while(True):
         print("\x1b[0;37;40mPlease log in before using the system\n")
