@@ -1,10 +1,10 @@
 import SanitationController as sanitation
 import ValidationController as validation
+import NavigationController as navigation
 
 def Main():
-    while(True):
-        Login()
-        MainMenu()
+    Login()
+    navigator.mainMenu()
         
 
 
@@ -18,12 +18,11 @@ def Login():
         password = input("Please input password\n")
         sanitation.StringSanitation(password)
 
-        if(not validation.ValidateUsernamePassword(username, password)):
+        if(not validator.ValidateUsernamePassword(username, password)):
             print("\x1b[1;31;40mIncorrect username or password\n")
-        elif(validation.ValidateUsernamePassword(username, password)):
+        elif(validator.ValidateUsernamePassword(username, password)):
             break
 
-def MainMenu():
-    print('mainmenu')
-
+navigator = navigation.Navigator()
+validator = validation.Validation()
 Main()
