@@ -1,11 +1,16 @@
 import SanitationController as sanitation
 import ValidationController as validation
 import NavigationController as navigation
+import AccountContoller as accountcontrol
+import testView as testview
 
 def Main():
-    Login()
+    testview.TestView.login()
+    print(accountcontrol.AccountController.loggedinuser)
     while True:
+
         navigator.mainMenu()
+
         
 
 
@@ -26,4 +31,5 @@ def Login():
 
 navigator = navigation.Navigator()
 validator = validation.Validation()
+accountcontroller = accountcontrol.AccountController()
 Main()
