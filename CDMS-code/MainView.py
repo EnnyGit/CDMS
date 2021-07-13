@@ -4,7 +4,8 @@ import NavigationController as navigation
 
 def Main():
     Login()
-    navigator.mainMenu()
+    while True:
+        navigator.mainMenu()
         
 
 
