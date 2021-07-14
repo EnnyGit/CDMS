@@ -30,6 +30,8 @@ class AccountController:
                 self.Authorize(user)
                 self.user=user
                 AccountController.loggedinuser = user
+                #TODO Check user access level
+                AccountController.loggedinuser.role = 'admin'
             else:
                 user.SetMessage("Incorrect username or password")
         else:
