@@ -96,13 +96,14 @@ class Navigator:
 
     def registerNewClient(self):
         self.currentClient = Client()
-        self.currentClient.address = Address(None, None, None)
+        self.currentClient.address = Address('', '', '')
         while True:
             options = [
-                ('Name {}'.format(self.currentClient.fullname), self.currentClient.setName),
-                ('Address {}'.format(self.currentClient.address.GetFullAddress()), self.addAddress), #TODO
-                ('Email address {}'.format(self.currentClient.email), self.currentClient.setEmail),
-                ('Phone number {}'.format(self.currentClient.phone), self.currentClient.setPhone),                
+                ('Name:              {}'.format(self.currentClient.fullname), self.currentClient.setName),
+                ('Address:           {}'.format(self.currentClient.address.GetFullAddress()), self.addAddress), #TODO
+                ('Email address:     {}'.format(self.currentClient.email), self.currentClient.setEmail),
+                ('Phone number:      {}'.format(self.currentClient.phone), self.currentClient.setPhone),
+                ('Confirm changes', self.placeHolder),#TODO Implement saving client to database                
                 ('Return to main menu', self.skip)
             ]
             exit = self.switchfunctionInput(options)
