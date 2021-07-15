@@ -10,17 +10,27 @@ class AccountController:
         self.__db= SqlDatabase.Connect()
 
     def __sendToDatabase(self, user):
-        cursor = self.__db.cursor()
-        query = f"INSERT INTO 'user' VALUES (NULL, '{user.GetUsername()}', '{user.GetPassword()}');"
-        print(query)
-        #cursor.execute("")
+        try:
+            cursor = self.__db.cursor()
+            query = f"INSERT INTO 'user' VALUES (NULL, '{user.GetUsername()}', '{user.GetPassword()}');"
+            cursor.execute(query)
+            self.__db.commit()
+            cursor.close()
+            return True
+        except Exception as e:
+            user.SetMessage(e)
+            return False
 
     def Save(self, user):
-        if self.__sendToDatabase(user):
-            pass
+        if self.__isvalid(user):
+            if self.__sendToDatabase(user):
+                user.SetMessage(f"User {user.GetUsername()} was registered successfully")
+        else:
+            user.SetMessage("Please fill in all  the fields!")
+            
 
-    def __isvalid(user):
-        if user.GetFname() != "" and user.GetLname() !="" and user.GetUsername() !="" and user.GetPassword() != "" and user.GetEmail() !="":
+    def __isvalid(self, user):
+        if user.GetUsername() !="" and user.GetPassword() != "":
             return True
         return False
             
@@ -52,5 +62,52 @@ class AccountController:
 
     def Authorize(self, user):
         user.SetMessage(user.GetUsername() + " is Logged In...")
-        # Log here
-    
+
+    def Remove(self, user):
+        if self.__isvalid(user):
+            if self.IsAuthentic(user):
+                if self.__DelUser(user):
+                    user.SetMessage(f"User {user.GetUsername()}  was deleted successfully")
+            else:
+                user.SetMessage("User with these credentials does not exist!")
+        else:
+            user.SetMessage("Please write a username and a password")
+
+    def __DelUser(self, user):
+        try:
+            cursor = self.__db.cursor()
+            query = f"DELETE FROM 'user' WHERE username = '{user.GetUsername()}'"
+            cursor.execute(query)
+            self.__db.commit()
+            return True
+        except Exception as e:
+            user.SetMessage(e)
+            return False      
+        finally:
+            cursor.close()  
+
+    def ChangePassword(self, user):
+        if self.IsValidLogin(user):
+            if self.IsAuthentic(user):
+                self.UpdatePassword(user)
+            else:
+                user.SetMessage("The username and password is Incorrect")
+                return False
+        else:
+            user.SetMessage("Please write a username and a password")
+            return False
+
+    def UpdatePassword(self, user):
+        
+        user.SetPassword(input("Create a new Password: "))
+        query = f"UPDATE 'user' SET password = '{user.GetPassword()}' WHERE username = '{user.GetUsername()}'"
+        try:
+            cursor = self.__db.cursor()
+            cursor.execute(query)
+            self.__db.commit()
+            user.SetMessage("Password was changed successfully!")
+            cursor.close()
+            return True
+        except Exception as e:
+            user.SetMessage(e)
+            return False
