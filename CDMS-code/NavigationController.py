@@ -1,8 +1,10 @@
+from UserController import UserController
 from os import curdir
 from re import findall
 import ValidationController as validation
 from AccountContoller import AccountController
 from ClientController import ClientController
+from UserController import UserController
 from ClientModel import Client
 from UserModel import User
 from AddressModel import Address
@@ -12,6 +14,7 @@ class Navigator:
     currentClient = Client()
     currentUser = User()
     clientController = ClientController()
+    userController = UserController()
 
     def __init__(self):
         self.validator = validation.Validation()
@@ -30,10 +33,11 @@ class Navigator:
                     return
 
     def mainMenu(self):
+        print('----------Main menu----------')
         options = [
             ('Search client', self.searchClient),
             ('Register new client', self.registerNewClient),
-            ('Update own password', self.placeHolder),
+            ('Update own password', User.updatePassword),
             ('Search advisors', self.searchAdvisor),
         ]
 
@@ -41,7 +45,7 @@ class Navigator:
             options.append(('Register new advisor', lambda: self.registerNewUser('advisor')))
             options.append(('Administration menu', self.administrationMenu))
         if Config.loggedInUser.role == 'superadmin':  #TODO replace with access rights check
-            options.append(('Register new system adminitrator', lambda: self.registerNewUser('admin')))
+            options.append(('Register new system administrator', lambda: self.registerNewUser('admin')))
             options.append(('Search administrators', self.searchAdministrators))
 
         options.append(('Exit', exit))
@@ -49,6 +53,7 @@ class Navigator:
         self.switchfunction(options)
 
     def searchClient(self):
+        print('--------Search client--------')
         options = [
             ('Search client by name', self.placeHolder),
             ('Search client by email', self.placeHolder),
@@ -59,6 +64,7 @@ class Navigator:
         self.switchfunction(options)
 
     def searchAdvisor(self):
+        print('--------Search advisor--------')
         options = [
             ('Search advisor by name', self.placeHolder),
             ('Search advisor by email', self.placeHolder),
@@ -69,6 +75,7 @@ class Navigator:
         self.switchfunction(options)
 
     def searchAdministrators(self):
+        print('----Search administrators----')
         options = [
             ('Search administrator by name', self.placeHolder),
             ('Search administrator by email', self.placeHolder),
@@ -79,6 +86,7 @@ class Navigator:
         self.switchfunction(options)
 
     def administrationMenu(self):
+        print('-----Administration menu-----')
         options = [
             ('Check list of users/roles', self.placeHolder),
             ('Make system backup', self.placeHolder),
@@ -92,6 +100,7 @@ class Navigator:
         self.currentClient = Client()
         self.currentClient.address = Address(None, None, None, None)
         while True:
+            print('-----Register new client-----')
             options = [
                 ('First name:        {}'.format(self.currentClient.GetFname()), self.currentClient.inputFirstName),
                 ('Last name:         {}'.format(self.currentClient.lastname), self.currentClient.inputLastName), #TODO split in first/last name
@@ -108,12 +117,16 @@ class Navigator:
     def registerNewUser(self, role):
         self.currentUser = User()
         while True:
+            if role == 'advisor':
+                print('-----Register new advisor-----')
+            elif role == 'admin':
+                print('--Register new administrator--')
             options = [
-                (f'Username:         {self.currentUser.GetUsername()}', self.currentUser.inputUsername),
+                (f'Username:         {self.currentUser.GetUsername()}', self.currentUser.inputUsername), #TODO check if username exists
                 (f'Password:         {self.currentUser.GetPassword()}', self.currentUser.inputPassword), #TODO only show password on registration
                 (f'First name:       {self.currentUser.GetFname()}', self.currentUser.inputFname),
                 (f'Last name:        {self.currentUser.GetLname()}', self.currentUser.inputLname),
-                ('Confirm changes', self.placeHolder), #TODO add registration date / save to database
+                ('Confirm changes', lambda: self.userController.Save(self.currentUser, role)), #TODO add registration date / save to database
                 ('Return to main menu', self.skip)
             ]
             exit = self.switchfunctionInput(options, False)
@@ -123,6 +136,7 @@ class Navigator:
 
     def addAddress(self):
         while True:
+            print('------Modify address------')
             options = [
                 ('Streetname        {}'.format(self.currentClient.address.streetname), self.currentClient.address.inputStreetName),
                 ('Housenumber       {}'.format(self.currentClient.address.housenumber), self.currentClient.address.inputHouseNumber),
@@ -136,6 +150,7 @@ class Navigator:
 
     def addCity(self):
         while True:
+            print('---------Modify city---------')
             options = [
                 ("New York", lambda: self.currentClient.address.SetCity("New York")),
                 ("Tokyo", lambda: self.currentClient.address.SetCity("Tokyo")),

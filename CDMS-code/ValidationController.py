@@ -69,7 +69,8 @@ class Validation:
         return bool(re.findall('[0-9]+', userinput))
 
     def passwordValidation(self, userinput):
-        if self.containsDigit(userinput) and self.containsLowercase(userinput) == True and self.containsSpecialCharacter(userinput) and self.containsLowercase(userinput):
+        if self.containsDigit(userinput) and self.containsLowercase(userinput) == True and\
+             self.containsSpecialCharacter(userinput) and self.containsLowercase(userinput):
             return bool(re.findall(r"^[0-9a-zA-Z~!@#$%^&*_\-+\\|(){}\[\]:;'<>,.?/]{8,30}$", userinput))
         else:
             return False
