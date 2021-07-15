@@ -84,13 +84,14 @@ class Navigator:
 
     def registerNewClient(self):
         self.currentClient = Client()
-        self.currentClient.address = Address(None, None, None)
+        self.currentClient.address = Address(None, None, None, None)
         while True:
             options = [
-                ('Name:              {}'.format(self.currentClient.fullname), self.currentClient.setName), #TODO split in first/last name
+                ('First name:        {}'.format(self.currentClient.GetFname()), self.currentClient.inputFirstName),
+                ('Last name:         {}'.format(self.currentClient.lastname), self.currentClient.inputLastName), #TODO split in first/last name
                 ('Address:           {}'.format(self.currentClient.address.GetFullAddress()), self.addAddress), #TODO
-                ('Email address:     {}'.format(self.currentClient.email), self.currentClient.setEmail),
-                ('Phone number:      {}'.format(self.currentClient.phone), self.currentClient.setPhone),
+                ('Email address:     {}'.format(self.currentClient.email), self.currentClient.inputEmail),
+                ('Phone number:      {}'.format(self.currentClient.phone), self.currentClient.inputPhone),
                 ('Confirm changes', self.placeHolder),#TODO Implement saving client to database                
                 ('Return to main menu', self.skip)
             ]
@@ -103,7 +104,7 @@ class Navigator:
             options = [
                 ('Streetname        {}'.format(self.currentClient.address.streetname), self.currentClient.address.inputStreetName),
                 ('Housenumber       {}'.format(self.currentClient.address.housenumber), self.currentClient.address.inputHouseNumber),
-                ('Zipcodde          {}'.format(self.currentClient.address.zipcode), self.currentClient.address.inputZipCode),
+                ('Zipcode           {}'.format(self.currentClient.address.zipcode), self.currentClient.address.inputZipCode),
                 ('City              {}'.format(self.currentClient.address.city), self.addCity), #TODO Implement
                 ('Return to client', self.skip)
             ]
