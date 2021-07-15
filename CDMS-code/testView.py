@@ -6,11 +6,11 @@ u = User()
 acc = AccountController()
 database = DatabaseController()
 
-# print("----------Welcome-----------") # -READ-
-# u.SetUsername(input("Please write your Username: "))
-# u.SetPassword(input("Please write your Password: "))
-# acc.Login(u)
-# print(u.GetMessage())
+print("----------Welcome-----------") # -READ-
+u.SetUsername(input("Please write your Username: "))
+u.SetPassword(input("Please write your Password: "))
+acc.Login(u)
+print(u.GetMessage())
 
 # print("----------User Registration-----------") # -CREATE-
 # u.SetUsername(input("Please Choose your Username: "))
@@ -24,8 +24,8 @@ database = DatabaseController()
 # acc.Remove(u)
 # print(u.GetMessage())
 
-print("----------Welcome-----------") # -UPDATE-
-u.SetUsername(input("Please write your Username: "))
-u.SetPassword(input("Please write your Password: "))
-acc.ChangePassword(u)
-print(u.GetMessage())
+# print("----------Welcome-----------") # -UPDATE-
+# u.SetUsername(input("Please write your Username: "))
+# u.SetPassword(input("Please write your Password: "))
+# acc.ChangePassword(u)
+# print(u.GetMessage())
