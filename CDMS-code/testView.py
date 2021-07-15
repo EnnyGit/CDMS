@@ -5,6 +5,8 @@ from DatabaseController import DatabaseController
 from datetime import date, datetime
 from ClientModel import Client
 
+import Config
+
 class TestView:
 
     u = User()
@@ -19,7 +21,6 @@ class TestView:
         TestView.u.SetUsername(input("Please write your Username: "))
         TestView.u.SetPassword(input("Please write your Password: "))
         TestView.acc.Login(TestView.u)
-        print(TestView.u.GetMessage())
 
     @staticmethod
     def registerUser():

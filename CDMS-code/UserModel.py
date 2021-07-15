@@ -1,18 +1,14 @@
 class User:
 
-    #attributes
-    username            = ""
-    password            = ""
-    firstname           = ""
-    lastname            = ""
-    email               = ""
-    message             = ""
-    registrationDate    = ""
-    role                = ""
-
     #constructor
-    def __init__(self):
-        pass
+    def __init__(self, id=None, username="", password="", firstname="", lastname="", registrationDate="", role=""):
+        self.id = id
+        self.username = username
+        self.password = password
+        self.firstname = firstname
+        self.lastname = lastname
+        self.registrationDate = registrationDate
+        self.role = role
 
     #setters
     def SetUsername(self, param):
@@ -26,12 +22,6 @@ class User:
     
     def SetLname(self, param):
         self.lastname = param
-
-    def SetEmail(self, param):
-        self.email = param
-
-    def SetMessage(self, param):
-        self.message = param
 
     def SetRole(self, param):
         self.role = param
@@ -51,12 +41,6 @@ class User:
 
     def GetLname(self):
         return self.lastname
-
-    def GetEmail(self):
-        return self.email
-
-    def GetMessage(self):
-        return self.message
 
     def GetRole(self):
         return self.role

@@ -1,11 +1,14 @@
 import ValidationController as validation
 from AccountContoller import AccountController
+from ClientController import ClientController
 from ClientModel import Client
 from AddressModel import Address
 import Config
 
 class Navigator:
     currentClient = Client()
+    clientController = ClientController()
+
 
     def __init__(self):
         self.validator = validation.Validation()
@@ -92,7 +95,7 @@ class Navigator:
                 ('Address:           {}'.format(self.currentClient.address.GetFullAddress()), self.addAddress), #TODO
                 ('Email address:     {}'.format(self.currentClient.email), self.currentClient.inputEmail),
                 ('Phone number:      {}'.format(self.currentClient.phone), self.currentClient.inputPhone),
-                ('Confirm changes', self.placeHolder),#TODO Implement saving client to database                
+                ('Confirm changes', lambda: self.clientController.Save(self.currentClient)),#TODO Implement saving client to database                
                 ('Return to main menu', self.skip)
             ]
             exit = self.switchfunctionInput(options, False)

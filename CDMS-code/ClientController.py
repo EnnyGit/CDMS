@@ -1,4 +1,5 @@
 from dbContext import SqlDatabase
+from ClientModel import Client
 import Config
 
 
@@ -9,10 +10,10 @@ class ClientController:
     def __init__(self):
         self.__db= SqlDatabase.Connect()
 
-    def __sendToDatabase(self, user):
+    def __sendToDatabase(self, client):
         try:
             cursor = self.__db.cursor()
-            query = f"INSERT INTO 'user' VALUES (NULL, '{user.GetUsername()}', '{user.GetPassword()}', '{user.GetFname()}', '{user.GetLname()}', '{user.GetRegistrationDate()}', '{user.GetRole()}');"
+            query = f"INSERT INTO 'client' VALUES (NULL, '{client.GetFname()}', '{client.GetLname()}', '{client.GetAddress()}', '{client.GetEmail()}', '{client.GetPhone()}');"
             cursor.execute(query)
             self.__db.commit()
             cursor.close()
@@ -29,17 +30,42 @@ class ClientController:
             return True
         return False
 
-    def Save(self, user):
-        if self.__isValid(user):
-            if self.__sendToDatabase(user):
-                Config.loggedInUser = user
-                print(f"User {user.GetUsername()} was registered successfully")
+    def SetSelectedInClientData(self, client):
+        try:
+            cursor = self.__db.cursor()
+            query = f"SELECT * FROM 'client' WHERE firstname = '{client.GetFname()}' AND lastname = '{client.GetLname()}'"
+            cursor.execute(query)
+            dbData = cursor.fetchone()
+            dbClient = Client(dbData[0], dbData[1], dbData[2], dbData[3], dbData[4], dbData[5])
+            Config.selectedClient = dbClient
+            print("TEST: " + Config.selectedClient.phone)
+        except Exception as e:
+            print("ClientController Line 42: " + e)
+
+    def GetClientByName(self, param):
+        try:
+            clientList = []
+            cursor = self.__db.cursor()
+            query = f"SELECT * FROM 'client' WHERE firstname || ' ' || lastname LIKE '%{param}%''"
+            cursor.execute(query)
+            dbData = cursor.fetchall()
+            for client in dbData:
+                clientList.append(Client(client[0], client[1], client[2], client[3], client[4], client[5]))
+                print(client[0], client[1])
+            return clientList
+        except Exception as e:
+            print("ClientController Line 42: " + e)
+
+    def Save(self, client):
+        if self.__isValid(client):
+            if self.__sendToDatabase(client):
+                print(f"Client {client.GetFname()} {client.GetLname()} was registered successfully")
         else:
-            print("Please fill in all  the fields!")
+            print("Please fill in all the fields!")
             
 
     def __isValid(self, user):
-        if user.GetUsername() !="" and user.GetPassword() != "":
+        if user.GetFname() !="" and user.GetLname() != "":
             return True
         return False
 
@@ -66,9 +92,9 @@ class ClientController:
         finally:
             cursor.close()  
 
-    def UpdatePhone(self, client):
+    def UpdateClient(self, client, id):
         client.SetPhone(input("New phonenumber: "))
-        query = f"UPDATE 'client' SET phone = '{client.GetPhone()}' WHERE firstname = '{client.GetFname()}' AND lastname = '{client.GetLname()}'"
+        query = f"UPDATE 'client' SET firstname = '{client.GetFname()}', lastname = '{client.GetLname()}', address = '{client.GetAddress()}', email = '{client.GetEmail()}', phone = '{client.GetPhone()}' WHERE id = '{client.GetId()}'"
         try:
             cursor = self.__db.cursor()
             cursor.execute(query)

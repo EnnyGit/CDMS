@@ -6,11 +6,9 @@ import testView as testview
 import Config
 
 def Main():
-    testview.TestView.registerUser()
+    testview.TestView.login()
     while True:
         navigator.mainMenu()
-
-        
 
 #TODO Remove login function
 def Login():

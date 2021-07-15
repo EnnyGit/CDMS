@@ -1,1 +1,2 @@
 loggedInUser = None
+selectedClient = None

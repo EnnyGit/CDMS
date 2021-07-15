@@ -1,4 +1,5 @@
 from dbContext import SqlDatabase
+from UserModel import User
 import Config
 
 
@@ -39,7 +40,7 @@ class AccountController:
         if self.__isValid(user):
             if self.__isAuthentic(user):
                 self.__authorize(user)
-                Config.loggedInUser = user
+                self.SetLogedInUserData(user)
             else:
                 print("Incorrect username or password")
         else:
@@ -78,6 +79,17 @@ class AccountController:
             return False      
         finally:
             cursor.close()  
+
+    def SetLogedInUserData(self, user):
+        try:
+            cursor = self.__db.cursor()
+            query = f"SELECT * FROM 'user' WHERE username = '{user.GetUsername()}' AND password = '{user.GetPassword()}'"
+            cursor.execute(query)
+            dbData = cursor.fetchone()
+            dbUser = User(dbData[0], dbData[1], dbData[2], dbData[3], dbData[4], dbData[5], dbData[6])
+            Config.loggedInUser = dbUser
+        except Exception as e:
+            print(e)
 
     def ChangePassword(self, user):
         if self.IsValidLogin(user):
