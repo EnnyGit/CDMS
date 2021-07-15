@@ -2,14 +2,14 @@ from AddressModel import Address
 from ValidationController import Validation
 
 class Client:
-    firstname = ''
-    lastname  = ''
-    address   = ''
-    email     = ''
-    phone     = ''
 
-    def __init__(self):
-        pass
+    def __init__(self, id=None, firstname='', lastname='', address='', email='',  phone = ''):
+        self.id = id
+        self.firstname = firstname
+        self.lastname = lastname
+        self.address = address
+        self.email = email
+        self.phone = phone
 
     # Setters
     def SetFname(self, param):
