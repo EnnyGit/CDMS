@@ -39,6 +39,21 @@ class Validation:
     def zipCodeValidation(userinput):
     	return bool(re.findall("^[1-9]{1}[0-9]{3}[a-zA-Z]{2}$", userinput))
 
+    #TODO Which characters should be allowed?
+    @staticmethod
+    def nameValidation(userinput):
+        return bool(re.findall("^[a-zA-Z \-]{1,20}$", userinput))
+
+    @staticmethod
+    #TODO Niet heel geweldig maar email regexes zijn naar
+    def emailValidation(userinput):
+        #return bool(re.findall("^[a-zA-Z0-9]{1,64}[@]{1}[a-zA-Z0-9]{1,64}[.]{1}[a-zA-Z]{2,10}$"))
+        return bool(re.findall("^[\w!#$%&'*+\-/=?\^_`{|}~]+(\.[\w!#$%&'*+\-/=?\^_`{|}~]+)*@((([\-\w]+\.)+[a-zA-Z]{2,4})|(([0-9]{1,3}\.){3}[0-9]{1,3}))$", userinput))
+
+    @staticmethod
+    def phoneValidation(userinput):
+        return bool(re.findall('^[0-9]{8}$', userinput))   
+
     def containsLowercase(self, userinput):
         return bool(re.findall('[a-z]+', userinput))    
 

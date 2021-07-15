@@ -5,10 +5,11 @@ class Address():
     cities = ["New York", "Tokyo", "London", "Paris", "Sydney", "Signapore", "Los Angeles", "Toronto", "Amsterdam", "San Jose"]
 
     #constructor
-    def __init__(self, streetname, housenumber, zipcode):
+    def __init__(self, streetname, housenumber, zipcode, city):
         self.streetname = streetname
         self.housenumber = housenumber
         self.zipcode = zipcode
+        self.city = city
 
     #setters
     def SetCity(self, param):
@@ -69,11 +70,11 @@ class Address():
     #TODO Input validation
     def inputZipCode(self):
         while True:
-            userinput = input('Please input clients zip code\n')
+            userinput = input('Please input clients zipcode\n')
             if Validation.zipCodeValidation(userinput) == True: #TODO fix
                 self.zipcode = userinput
                 return
             elif len(userinput) > 6 or len(userinput) == 0:
                 print("zipcode must be within 1-6 characters.")
             else:
-                print("zipcode must be a number between 1-99999 with an optional letter (e.g. 123a)")
+                print("zipcode must be a number between 1000-9999 followed by two letters (e.g. 1234AB)")
