@@ -46,17 +46,14 @@ class Validation:
         return bool(re.findall("^[a-zA-Z \-]{1,20}$", userinput))
 
     @staticmethod
-    #TODO Niet heel geweldig maar email regexes zijn naar
     def emailValidation(userinput):
-        #return bool(re.findall("^[a-zA-Z0-9]{1,64}[@]{1}[a-zA-Z0-9]{1,64}[.]{1}[a-zA-Z]{2,10}$"))
         return bool(re.findall("^[\w!#$%&'*+\-/=?\^_`{|}~]+(\.[\w!#$%&'*+\-/=?\^_`{|}~]+)*@((([\-\w]+\.)+[a-zA-Z]{2,4})|(([0-9]{1,3}\.){3}[0-9]{1,3}))$", userinput))
 
     @staticmethod
     def phoneValidation(userinput):
         return bool(re.findall('^[0-9]{8}$', userinput))
 
-    @staticmethod
-    def usernameValidation(userinput):
+    def usernameValidation(self, userinput):
         return bool(re.findall("^[a-zA-Z]{1}[a-zA-Z0-9\-_'.]{4,19}$", userinput))
 
     def containsLowercase(self, userinput):
@@ -68,8 +65,14 @@ class Validation:
     def containsSpecialCharacter(self, userinput):
         return any(char in userinput for char in '''~!@#$%^&*_-+=`|\(){}[]:;'<>,.?/''')
 
+    def containsDigit(self, userinput):
+        return bool(re.findall('[0-9]+', userinput))
+
     def passwordValidation(self, userinput):
-        return bool(re.findall(r"^[0-9a-zA-Z~!@#$%^&*_\-+\\|(){}\[\]:;'<>,.?/]{8,30}$", userinput))
+        if self.containsDigit(userinput) and self.containsLowercase(userinput) == True and self.containsSpecialCharacter(userinput) and self.containsLowercase(userinput):
+            return bool(re.findall(r"^[0-9a-zA-Z~!@#$%^&*_\-+\\|(){}\[\]:;'<>,.?/]{8,30}$", userinput))
+        else:
+            return False
 
 
 #TODO Remove test case

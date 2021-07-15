@@ -110,10 +110,10 @@ class Navigator:
         while True:
             options = [
                 (f'Username:         {self.currentUser.GetUsername()}', self.currentUser.inputUsername),
+                (f'Password:         {self.currentUser.GetPassword()}', self.currentUser.inputPassword), #TODO only show password on registration
                 (f'First name:       {self.currentUser.GetFname()}', self.currentUser.inputFname),
                 (f'Last name:        {self.currentUser.GetLname()}', self.currentUser.inputLname),
-                (f'Email address:    {self.currentUser.GetEmail()}', self.currentUser.inputEmail),
-                ('Confirm changes', self.placeHolder),
+                ('Confirm changes', self.placeHolder), #TODO add registration date / save to database
                 ('Return to main menu', self.skip)
             ]
             exit = self.switchfunctionInput(options, False)

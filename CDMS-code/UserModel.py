@@ -1,19 +1,17 @@
 from ValidationController import Validation
 
 class User:
+    validator = Validation()
 
-    #attributes
-    username            = ""
-    password            = ""
-    firstname           = ""
-    lastname            = ""
-    email               = ""
-    registrationDate    = ""
-    role                = ""
-
-    #constructor
-    def __init__(self):
-        pass
+#constructor
+    def __init__(self, id=None, username="", password="", firstname="", lastname="", registrationDate="", role=""):
+        self.id = id
+        self.username = username
+        self.password = password
+        self.firstname = firstname
+        self.lastname = lastname
+        self.registrationDate = registrationDate
+        self.role = role
 
     #setters
     def SetUsername(self, param):
@@ -83,28 +81,34 @@ class User:
             else:
                 print("last name must only contain letters, spaces ( ) and hyphens (-)\n")
 
-    #TODO email regexes zijn naar / move to view
-    def inputEmail(self):
-        while True:
-            userinput = input('Please input user\'s email\n')
-            if Validation.emailValidation(userinput) == True:
-                self.email = userinput
-                return
-            elif len(userinput) > 139 or len(userinput) < 6:
-                print("email must be within 6-254 characters.\n")
-            else:
-                print("email must be of format 'example@example.com'\n")
-
     #TODO move to view
+    #TODO Check if username exists
     def inputUsername(self):
         while True:
             userinput = input('Please input user\'s username\n')
-            if Validation.emailValidation(userinput) == True:
-                self.email = userinput
+            if self.validator.usernameValidation(userinput) == True:
+                self.username = userinput
                 return
             elif len(userinput) > 20 or len(userinput) < 5:
                 print("username must be within 5-20 characters.\n")
             else:
                 print("username must start with a letter and only contain alphanumeric characters and dashes (-), underscores (_), apostrophes ('), and periods (.)'\n")
 
-    
+    #TODO move to view
+    def inputPassword(self):
+        while True:
+            userinput = input("Please input user\'s password, alphanumeric characters and special characters (~!@#$%^&*_-+\\|(){}[]:;'<>,.?/) are allowed\nPassword must contain at least one lowercase letter, uppercase letter, digit and special character\n")
+
+            if self.validator.passwordValidation(userinput) == True:
+                self.password = userinput
+                return
+            if len(userinput) > 30 or len(userinput) < 8:
+                print("Password must be within 8-30 characters.\n")
+            if not self.validator.containsLowercase(userinput):
+                print("Password must contain a lowercase letter")
+            if not self.validator.containsUppercase(userinput):
+                print("Password must contain an uppercase letter")
+            if not self.validator.containsSpecialCharacter(userinput):
+                print("Password must contain a special character")
+            if not self.validator.containsDigit(userinput):
+                print("Password must contain a digit")
