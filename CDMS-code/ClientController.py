@@ -46,15 +46,27 @@ class ClientController:
         try:
             clientList = []
             cursor = self.__db.cursor()
-            query = f"SELECT * FROM 'client' WHERE firstname || ' ' || lastname LIKE '%{param}%''"
+            query = f"SELECT * FROM 'client' WHERE firstname || ' ' || lastname LIKE '%{param}%'"
             cursor.execute(query)
             dbData = cursor.fetchall()
             for client in dbData:
                 clientList.append(Client(client[0], client[1], client[2], client[3], client[4], client[5]))
-                print(client[0], client[1])
             return clientList
         except Exception as e:
-            print("ClientController Line 42: " + e)
+            print("ClientController Line 56: " , e)
+
+    def GetClientByEmail(self, param):
+        try:
+            clientList = []
+            cursor = self.__db.cursor()
+            query = f"SELECT * FROM 'client' WHERE email LIKE '%{param}%'"
+            cursor.execute(query)
+            dbData = cursor.fetchall()
+            for client in dbData:
+                clientList.append(Client(client[0], client[1], client[2], client[3], client[4], client[5]))
+            return clientList
+        except Exception as e:
+            print("ClientController Line 69: " , e)
 
     def Save(self, client):
         if self.__isValid(client):
@@ -105,3 +117,5 @@ class ClientController:
         except Exception as e:
             print(e)
             return False
+
+
