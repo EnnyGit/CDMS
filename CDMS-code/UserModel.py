@@ -95,7 +95,7 @@ class User:
             else:
                 print("email must be of format 'example@example.com'\n")
 
-    #TODO email regexes zijn naar / move to view
+    #TODO move to view
     def inputUsername(self):
         while True:
             userinput = input('Please input user\'s username\n')

@@ -10,8 +10,6 @@ def Main():
     while True:
         navigator.mainMenu()
 
-        
-
 #TODO Remove login function
 def Login():
     while(True):
