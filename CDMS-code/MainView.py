@@ -8,7 +8,6 @@ import Config
 def Main():
     testview.TestView.register()
     while True:
-
         navigator.mainMenu()
 
         
