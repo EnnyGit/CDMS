@@ -12,6 +12,8 @@ class Validation:
         else: 
             return False
 
+    
+
     def inputNumberIsInRange(self, userinput, min, max):
         while True:
             if userinput.isnumeric():
@@ -24,9 +26,18 @@ class Validation:
                 print("Input is not valid because it isn't a number")
                 return False
 
+    @staticmethod
+    def streetNameValidation(userinput):
+        return bool(re.findall(r"^[0-9a-zA-Z~!@#$%^&*_\-+\\|(){}\[\]:;'<>,.?/ ]{1,55}$", userinput))
+
+    @staticmethod
+    def houseNumberValidation(userinput):
+        return bool(re.findall("^[1-9]{1}[0-9]{0,4}[a-zA-Z]?$", userinput))
+
     #TODO Make zipcode data all uppercase
-    def zipCodeValidation(self, userinput):
-    	return bool(re.findall("^[0-9]{4}[a-zA-Z]{2}$", userinput))
+    @staticmethod
+    def zipCodeValidation(userinput):
+    	return bool(re.findall("^[1-9]{1}[0-9]{3}[a-zA-Z]{2}$", userinput))
 
     def containsLowercase(self, userinput):
         return bool(re.findall('[a-z]+', userinput))    

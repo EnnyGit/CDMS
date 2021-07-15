@@ -22,19 +22,6 @@ class Navigator:
                 if(int(userinput) == len(options)):
                     return
 
-    def switchfunctionInput(self, options):
-        counter = 1
-        for o in options:
-            print('{}. {}'.format(counter, o[0]))
-            counter += 1
-        userinput = input()
-        if(self.validator.inputNumberIsInRange(userinput, 1, len(options))):
-            func = options[int(userinput) - 1][1]
-            func()
-            if(int(userinput) == len(options)):
-                return False
-
-
     def mainMenu(self):
         options = [
             ('Search client', self.searchClient),
@@ -96,35 +83,54 @@ class Navigator:
 
     def registerNewClient(self):
         self.currentClient = Client()
-        self.currentClient.address = Address('', '', '')
+        self.currentClient.address = Address(None, None, None)
         while True:
             options = [
-                ('Name:              {}'.format(self.currentClient.fullname), self.currentClient.setName),
+                ('Name:              {}'.format(self.currentClient.fullname), self.currentClient.setName), #TODO split in first/last name
                 ('Address:           {}'.format(self.currentClient.address.GetFullAddress()), self.addAddress), #TODO
                 ('Email address:     {}'.format(self.currentClient.email), self.currentClient.setEmail),
                 ('Phone number:      {}'.format(self.currentClient.phone), self.currentClient.setPhone),
                 ('Confirm changes', self.placeHolder),#TODO Implement saving client to database                
                 ('Return to main menu', self.skip)
             ]
-            exit = self.switchfunctionInput(options)
+            exit = self.switchfunctionInput(options, False)
             if exit == True:
                 return
 
     def addAddress(self):
         while True:
             options = [
-                ('Streetname {}'.format(self.currentClient.address.streetname), self.currentClient.address.inputStreetName),
-                ('Housenumber {}'.format(self.currentClient.address.housenumber), self.currentClient.address.inputHouseNumber),
-                ('Zipcodde {}'.format(self.currentClient.address.zipcode), self.currentClient.address.inputZipCode),
-                ('City {}'.format(self.currentClient.address.city), self.placeHolder), #TODO Implement
-                ('Return to user', self.skip)
+                ('Streetname        {}'.format(self.currentClient.address.streetname), self.currentClient.address.inputStreetName),
+                ('Housenumber       {}'.format(self.currentClient.address.housenumber), self.currentClient.address.inputHouseNumber),
+                ('Zipcodde          {}'.format(self.currentClient.address.zipcode), self.currentClient.address.inputZipCode),
+                ('City              {}'.format(self.currentClient.address.city), self.addCity), #TODO Implement
+                ('Return to client', self.skip)
             ]
-            exit = self.switchfunctionInput(options)
+            exit = self.switchfunctionInput(options, False)
+            if exit == True:
+                return
+
+    def addCity(self):
+        while True:
+            options = [
+                ("New York", lambda: self.currentClient.address.SetCity("New York")),
+                ("Tokyo", lambda: self.currentClient.address.SetCity("Tokyo")),
+                ("London", lambda: self.currentClient.address.SetCity("London")),
+                ("Paris", lambda: self.currentClient.address.SetCity("Paris")),
+                ("Sydney", lambda: self.currentClient.address.SetCity("Sydney")),
+                ("Signapore", lambda: self.currentClient.address.SetCity("Signapore")),
+                ("Los Angeles", lambda: self.currentClient.address.SetCity("Los Angeles")),
+                ("Toronto", lambda: self.currentClient.address.SetCity("Toronto")),
+                ("Amsterdam", lambda: self.currentClient.address.SetCity("Amsterdam")),
+                ("San Jose", lambda: self.currentClient.address.SetCity("San Jose"))
+            ]
+            options.append(('Return to address', self.skip))
+            exit = self.switchfunctionInput(options, True)
             if exit == True:
                 return
         
 
-    def switchfunctionInput(self, options):
+    def switchfunctionInput(self, options, returntype):
         counter = 1
         for o in options:
             print('{}. {}'.format(counter, o[0]))
@@ -133,7 +139,7 @@ class Navigator:
         if(self.validator.inputNumberIsInRange(userinput, 1, len(options))):
             func = options[int(userinput) - 1][1]
             func()
-            if(int(userinput) == len(options)):
+            if(int(userinput) == len(options)) or returntype == True:
                 return True
 
     def placeHolder(self):

@@ -8,7 +8,6 @@ def Main():
     testview.TestView.login()
     print(accountcontrol.AccountController.loggedinuser)
     while True:
-
         navigator.mainMenu()
 
         
