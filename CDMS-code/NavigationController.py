@@ -2,6 +2,7 @@ import ValidationController as validation
 from AccountContoller import AccountController
 from ClientModel import Client
 from AddressModel import Address
+import Config
 
 class Navigator:
     currentClient = Client()
@@ -43,10 +44,10 @@ class Navigator:
             ('Search advisors', self.searchAdvisor),
         ]
 
-        if AccountController.loggedinuser.role == 'admin'  or AccountController.loggedinuser.role == 'superadmin': #TODO replace with better access rights check
+        if Config.loggedInUser.role == 'admin'  or Config.loggedInUser.role == 'superadmin': #TODO replace with better access rights check
             options.append(('Register new advisor', self.placeHolder))
             options.append(('Administration menu', self.administrationMenu))
-        if AccountController.loggedinuser.role == 'superadmin':  #TODO replace with access rights check
+        if Config.loggedInUser.role == 'superadmin':  #TODO replace with access rights check
             options.append(('Register new system adminitrator', self.placeHolder))
             options.append(('Search administrators', self.searchAdministrators))
 

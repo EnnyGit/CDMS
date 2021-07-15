@@ -1,10 +1,11 @@
 from dbContext import SqlDatabase
+import Config
+
 
 class AccountController:
 
     __db=None
     __user=None
-    loggedinuser = None
 
     def __init__(self):
         self.__db= SqlDatabase.Connect()
@@ -12,21 +13,22 @@ class AccountController:
     def __sendToDatabase(self, user):
         try:
             cursor = self.__db.cursor()
-            query = f"INSERT INTO 'user' VALUES (NULL, '{user.GetUsername()}', '{user.GetPassword()}');"
+            query = f"INSERT INTO 'user' VALUES (NULL, '{user.GetUsername()}', '{user.GetPassword()}', '{user.GetFname()}', '{user.GetLname()}', '{user.GetRegistrationDate()}', '{user.GetRole()}');"
             cursor.execute(query)
             self.__db.commit()
             cursor.close()
             return True
         except Exception as e:
-            user.SetMessage(e)
+            print(e)
             return False
 
     def Save(self, user):
         if self.__isvalid(user):
             if self.__sendToDatabase(user):
-                user.SetMessage(f"User {user.GetUsername()} was registered successfully")
+                Config.loggedInUser = user
+                print(f"User {user.GetUsername()} was registered successfully")
         else:
-            user.SetMessage("Please fill in all  the fields!")
+            print("Please fill in all  the fields!")
             
 
     def __isvalid(self, user):
@@ -38,14 +40,11 @@ class AccountController:
         if self.IsValidLogin(user):
             if self.IsAuthentic(user):
                 self.Authorize(user)
-                self.user=user
-                AccountController.loggedinuser = user
-                #TODO Check user access level
-                AccountController.loggedinuser.role = 'admin'
+                Config.loggedInUser = user
             else:
-                user.SetMessage("Incorrect username or password")
+                print("Incorrect username or password")
         else:
-            user.SetMessage("Please write a username and a password")
+            print("Please write a username and a password")
 
     def IsValidLogin(self, user):
         if user.GetUsername() != "" and user.GetPassword != "":
@@ -61,17 +60,17 @@ class AccountController:
         return False
 
     def Authorize(self, user):
-        user.SetMessage(user.GetUsername() + " is Logged In...")
+        print(user.GetUsername() + " is Logged In...")
 
     def Remove(self, user):
         if self.__isvalid(user):
             if self.IsAuthentic(user):
                 if self.__DelUser(user):
-                    user.SetMessage(f"User {user.GetUsername()}  was deleted successfully")
+                    print(f"User {user.GetUsername()}  was deleted successfully")
             else:
-                user.SetMessage("User with these credentials does not exist!")
+                print("User with these credentials does not exist!")
         else:
-            user.SetMessage("Please write a username and a password")
+            print("Please write a username and a password")
 
     def __DelUser(self, user):
         try:
@@ -81,7 +80,7 @@ class AccountController:
             self.__db.commit()
             return True
         except Exception as e:
-            user.SetMessage(e)
+            print(e)
             return False      
         finally:
             cursor.close()  
@@ -91,10 +90,10 @@ class AccountController:
             if self.IsAuthentic(user):
                 self.UpdatePassword(user)
             else:
-                user.SetMessage("The username and password is Incorrect")
+                print("The username and password is Incorrect")
                 return False
         else:
-            user.SetMessage("Please write a username and a password")
+            print("Please write a username and a password")
             return False
 
     def UpdatePassword(self, user):
@@ -105,9 +104,9 @@ class AccountController:
             cursor = self.__db.cursor()
             cursor.execute(query)
             self.__db.commit()
-            user.SetMessage("Password was changed successfully!")
+            print("Password was changed successfully!")
             cursor.close()
             return True
         except Exception as e:
-            user.SetMessage(e)
+            print(e)
             return False

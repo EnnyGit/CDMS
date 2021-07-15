@@ -1,18 +1,18 @@
 class Address():
 
-    #constructor
-    def __init__(self, streetname, housenumber, zipcode):
-        self.streetname = streetname
-        self.housenumber = housenumber
-        self.zipcode = zipcode
+    cities = ["New York", "Tokyo", "London", "Paris", "Sydney", "Signapore", "Los Angeles", "Toronto", "Amsterdam", "San Jose"]
+    city = ''
+    streetname = ''
+    housenumber = ''
+    zipcode = ''
 
-    #private attributes
-    streetname = ""
-    housenumber = ""
-    zipcode = ""
-    city = ["New York", "Tokyo", "London", "Paris", "Sydney", "Signapore", "Los Angeles", "Toronto", "Amsterdam", "San Jose"]
+    def __init__(self):
+        pass
 
     #setters
+    def SetCity(self, param):
+        self.city = param
+
     def SetStreetname(self, param):
         self.streetname = param
 
@@ -23,6 +23,9 @@ class Address():
         self.zipcode = param
 
     #getters
+    def GetCity(self):
+        return self.city
+
     def GetStreetname(self):
         return self.streetname
 
@@ -30,19 +33,19 @@ class Address():
         return self.housenumber
 
     def GetZipcode(self):
-        return self.Zipcode
+        return self.zipcode
 
     def GetFullAddress(self):
-        return "{} {}, {}, {}".format(self.streetname, self.housenumber, self.zipcode, self.city)
+        return f"{self.streetname} {self.housenumber}, {self.zipcode}, {self.city}"
 
-    #TODO Input validation
-    def inputStreetName(self):
-        self.streetname = input('Please input clients street name')
+#TODO Input validation / change to view
+def inputStreetName(self):
+    self.streetname = input('Please input clients street name')
 
-    #TODO Input validation
-    def inputHouseNumber(self):
-        self.housenumber = input('Please input clients house number\n')
+#TODO Input validation / change to view
+def inputHouseNumber(self):
+    self.housenumber = input('Please input clients house number\n')
 
-    #TODO Input validation
-    def inputZipCode(self):
-        self.zipcode = input('Please input clients zipcode\n')
+#TODO Input validation / change to view
+def inputZipCode(self):
+    self.zipcode = input('Please input clients zipcode\n')

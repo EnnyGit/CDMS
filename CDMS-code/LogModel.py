@@ -3,18 +3,10 @@ from LoggingController import LoggingController
 
 class Log:
 
-    _controller = LoggingController()
-    id          = ""
-    username    = ""
-    date        = ""
-    time        = ""
-    description = ""
-    information = ""
-    suspicious  = ""
-    read        = ""
+    __controller = LoggingController()
 
     def __init__(self, description, information, suspicious):
-        self.id = self._controller.CalculateId()
+        self.id = self.__controller.CalculateId()
         self.username = "Admin"
         self.date = date.today().strftime("%d-%m-%Y")
         self.time = datetime.now().strftime("%H:%M:%S")

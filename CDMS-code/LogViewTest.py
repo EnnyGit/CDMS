@@ -1,9 +1,7 @@
 from LogModel import Log
 from LoggingController import LoggingController
-from DatabaseController import DatabaseController
 
 Logger = LoggingController()
-database = DatabaseController()
 
 # Blablalba non suspicious log blababla
 Log = Log(

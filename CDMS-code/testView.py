@@ -1,14 +1,14 @@
 from UserModel import User
 from AccountContoller import AccountController
 from DatabaseController import DatabaseController
+from datetime import date, datetime
 
 class TestView:
+
     u = User()
     acc = AccountController()
     database = DatabaseController()
 
-    #database.ExecuteQuery("CREATE TABLE user (id INT,username text,password text)")
-    #database.ExecuteQuery("INSERT INTO 'user' VALUES ('2', 'admin', 'admin123')")
     @staticmethod
     def login():
         print("----------Welcome-----------")
@@ -19,10 +19,12 @@ class TestView:
 
     @staticmethod
     def register():
+        acc = AccountController()
         print("----------User Registration-----------")
-        TestView.u.SetUsername(input("Please Choose your Username: "))
-        TestView.u.SetPassword(input("Please create a new Password: "))
-        #u.SetFname(input("Please write your First Name: "))
-        #u.SetLname(input("Please write your Last Name: "))
-        #u.SetEmail(input("Please write your Email: "))
-        TestView.acc.Save(TestView.u)
+        TestView.u.SetUsername(input("Username: "))
+        TestView.u.SetPassword(input("Password: "))
+        TestView.u.SetFname(input("First Name: "))
+        TestView.u.SetLname(input("Last Name: "))
+        TestView.u.SetRegistrationDate(f"{date.today().strftime('%d-%m-%Y')}, {datetime.now().strftime('%H:%M:%S')}")
+        TestView.u.SetRole(input("Role: "))
+        acc.Save(TestView.u)

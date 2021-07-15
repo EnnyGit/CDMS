@@ -1,14 +1,14 @@
 class User:
 
     #attributes
-    username  = ""
-    password  = ""
-    firstname = ""
-    lastname  = ""
-    email     = ""
-    message   = ""
-    role      = ""
-
+    username            = ""
+    password            = ""
+    firstname           = ""
+    lastname            = ""
+    email               = ""
+    message             = ""
+    registrationDate    = ""
+    role                = ""
 
     #constructor
     def __init__(self):
@@ -36,6 +36,9 @@ class User:
     def SetRole(self, param):
         self.role = param
 
+    def SetRegistrationDate(self, param):
+        self.registrationDate = param
+        
     #getters
     def GetUsername(self):
         return self.username
@@ -57,3 +60,6 @@ class User:
 
     def GetRole(self):
         return self.role
+
+    def GetRegistrationDate(self):
+        return self.registrationDate

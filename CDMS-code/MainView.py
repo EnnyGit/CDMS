@@ -3,10 +3,10 @@ import ValidationController as validation
 import NavigationController as navigation
 import AccountContoller as accountcontrol
 import testView as testview
+import Config
 
 def Main():
-    testview.TestView.login()
-    print(accountcontrol.AccountController.loggedinuser)
+    testview.TestView.register()
     while True:
 
         navigator.mainMenu()
