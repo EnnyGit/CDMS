@@ -7,7 +7,7 @@ class SqlDatabase:
     @staticmethod
     def Connect():
         try:
-            connection = sqlite3.connect('CDMS-data.db')
+            connection = sqlite3.connect('CDMS-code\\CDMS-data.db')
             SqlDatabase.Message = "Connected"
             return connection
         except Exception as e:

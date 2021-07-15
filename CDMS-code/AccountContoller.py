@@ -4,6 +4,7 @@ class AccountController:
 
     __db=None
     __user=None
+    loggedinuser = None
 
     def __init__(self):
         self.__db= SqlDatabase.Connect()
@@ -38,6 +39,9 @@ class AccountController:
             if self.IsAuthentic(user):
                 self.Authorize(user)
                 self.user=user
+                AccountController.loggedinuser = user
+                #TODO Check user access level
+                AccountController.loggedinuser.role = 'admin'
             else:
                 user.SetMessage("Incorrect username or password")
         else:

@@ -7,6 +7,7 @@ class User:
     lastname  = ""
     email     = ""
     message   = ""
+    role      = ""
 
 
     #constructor
@@ -32,6 +33,9 @@ class User:
     def SetMessage(self, param):
         self.message = param
 
+    def SetRole(self, param):
+        self.role = param
+
     #getters
     def GetUsername(self):
         return self.username
@@ -50,3 +54,6 @@ class User:
 
     def GetMessage(self):
         return self.message
+
+    def GetRole(self):
+        return self.role

@@ -2,30 +2,27 @@ from UserModel import User
 from AccountContoller import AccountController
 from DatabaseController import DatabaseController
 
-u = User()
-acc = AccountController()
-database = DatabaseController()
+class TestView:
+    u = User()
+    acc = AccountController()
+    database = DatabaseController()
 
-print("----------Welcome-----------") # -READ-
-u.SetUsername(input("Please write your Username: "))
-u.SetPassword(input("Please write your Password: "))
-acc.Login(u)
-print(u.GetMessage())
+    #database.ExecuteQuery("CREATE TABLE user (id INT,username text,password text)")
+    #database.ExecuteQuery("INSERT INTO 'user' VALUES ('2', 'admin', 'admin123')")
+    @staticmethod
+    def login():
+        print("----------Welcome-----------")
+        TestView.u.SetUsername(input("Please write your Username: "))
+        TestView.u.SetPassword(input("Please write your Password: "))
+        TestView.acc.Login(TestView.u)
+        print(TestView.u.GetMessage())
 
-# print("----------User Registration-----------") # -CREATE-
-# u.SetUsername(input("Please Choose your Username: "))
-# u.SetPassword(input("Please create a new Password: "))
-# acc.Save(u)
-# print(u.GetMessage())
-
-# print("----------Remove Account-----------") # -DELETE-
-# u.SetUsername(input("Please Choose your Username: "))
-# u.SetPassword(input("Please create a new Password: "))
-# acc.Remove(u)
-# print(u.GetMessage())
-
-# print("----------Welcome-----------") # -UPDATE-
-# u.SetUsername(input("Please write your Username: "))
-# u.SetPassword(input("Please write your Password: "))
-# acc.ChangePassword(u)
-# print(u.GetMessage())
+    @staticmethod
+    def register():
+        print("----------User Registration-----------")
+        TestView.u.SetUsername(input("Please Choose your Username: "))
+        TestView.u.SetPassword(input("Please create a new Password: "))
+        #u.SetFname(input("Please write your First Name: "))
+        #u.SetLname(input("Please write your Last Name: "))
+        #u.SetEmail(input("Please write your Email: "))
+        TestView.acc.Save(TestView.u)

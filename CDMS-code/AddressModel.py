@@ -31,3 +31,18 @@ class Address():
 
     def GetZipcode(self):
         return self.Zipcode
+
+    def GetFullAddress(self):
+        return "{} {}, {}, {}".format(self.streetname, self.housenumber, self.zipcode, self.city)
+
+    #TODO Input validation
+    def inputStreetName(self):
+        self.streetname = input('Please input clients street name')
+
+    #TODO Input validation
+    def inputHouseNumber(self):
+        self.housenumber = input('Please input clients house number\n')
+
+    #TODO Input validation
+    def inputZipCode(self):
+        self.zipcode = input('Please input clients zipcode\n')
