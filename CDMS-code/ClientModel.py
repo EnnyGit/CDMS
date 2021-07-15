@@ -75,7 +75,7 @@ class Client:
                 self.email = userinput
                 return
             elif len(userinput) > 139 or len(userinput) < 6:
-                print("email must be within 6-139 characters.\n")
+                print("email must be within 6-254 characters.\n")
             else:
                 print("email must be of format 'example@example.com'\n")
 

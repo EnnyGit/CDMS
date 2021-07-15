@@ -1,11 +1,15 @@
+from os import curdir
+from re import findall
 import ValidationController as validation
 from AccountContoller import AccountController
 from ClientModel import Client
+from UserModel import User
 from AddressModel import Address
 import Config
 
 class Navigator:
     currentClient = Client()
+    currentUser = User()
 
     def __init__(self):
         self.validator = validation.Validation()
@@ -32,10 +36,10 @@ class Navigator:
         ]
 
         if Config.loggedInUser.role == 'admin'  or Config.loggedInUser.role == 'superadmin': #TODO replace with better access rights check
-            options.append(('Register new advisor', self.placeHolder))
+            options.append(('Register new advisor', lambda: self.registerNewUser('advisor')))
             options.append(('Administration menu', self.administrationMenu))
         if Config.loggedInUser.role == 'superadmin':  #TODO replace with access rights check
-            options.append(('Register new system adminitrator', self.placeHolder))
+            options.append(('Register new system adminitrator', lambda: self.registerNewUser('admin')))
             options.append(('Search administrators', self.searchAdministrators))
 
         options.append(('Exit', exit))
@@ -98,6 +102,22 @@ class Navigator:
             exit = self.switchfunctionInput(options, False)
             if exit == True:
                 return
+        
+    def registerNewUser(self, role):
+        self.currentUser = User()
+        while True:
+            options = [
+                (f'Username:         {self.currentUser.GetUsername()}', self.currentUser.inputUsername),
+                (f'First name:       {self.currentUser.GetFname()}', self.currentUser.inputFname),
+                (f'Last name:        {self.currentUser.GetLname()}', self.currentUser.inputLname),
+                (f'Email address:    {self.currentUser.GetEmail()}', self.currentUser.inputEmail),
+                ('Confirm changes', self.placeHolder),
+                ('Return to main menu', self.skip)
+            ]
+            exit = self.switchfunctionInput(options, False)
+            if exit == True:
+                return
+
 
     def addAddress(self):
         while True:

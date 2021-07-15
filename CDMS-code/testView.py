@@ -15,7 +15,6 @@ class TestView:
         TestView.u.SetUsername(input("Please write your Username: "))
         TestView.u.SetPassword(input("Please write your Password: "))
         TestView.acc.Login(TestView.u)
-        print(TestView.u.GetMessage())
 
     @staticmethod
     def register():

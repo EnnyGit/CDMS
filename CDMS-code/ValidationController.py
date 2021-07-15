@@ -26,6 +26,7 @@ class Validation:
                 print("Input is not valid because it isn't a number")
                 return False
 
+    #TODO remove statics
     @staticmethod
     def streetNameValidation(userinput):
         return bool(re.findall(r"^[0-9a-zA-Z~!@#$%^&*_\-+\\|(){}\[\]:;'<>,.?/ ]{1,55}$", userinput))
@@ -52,7 +53,11 @@ class Validation:
 
     @staticmethod
     def phoneValidation(userinput):
-        return bool(re.findall('^[0-9]{8}$', userinput))   
+        return bool(re.findall('^[0-9]{8}$', userinput))
+
+    @staticmethod
+    def usernameValidation(userinput):
+        return bool(re.findall("^[a-zA-Z]{1}[a-zA-Z0-9\-_'.]{4,19}$", userinput))
 
     def containsLowercase(self, userinput):
         return bool(re.findall('[a-z]+', userinput))    
