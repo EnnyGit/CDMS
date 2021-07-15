@@ -6,7 +6,7 @@ import testView as testview
 import Config
 
 def Main():
-    testview.TestView.register()
+    testview.TestView.registerUser()
     while True:
         navigator.mainMenu()
 

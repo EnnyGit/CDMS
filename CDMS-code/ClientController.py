@@ -2,7 +2,7 @@ from dbContext import SqlDatabase
 import Config
 
 
-class AccountController:
+class ClientController:
 
     __db=None
 
@@ -21,6 +21,14 @@ class AccountController:
             print(e)
             return False
 
+    def __isAuthentic(self, client):
+        cursor = self.__db.cursor()
+        cursor.execute(f"SELECT id FROM 'client' WHERE firstname = '{client.GetFname()}' AND lastname = '{client.GetLname()}'")
+        record = cursor.fetchone()
+        if record!=None:
+            return True
+        return False
+
     def Save(self, user):
         if self.__isValid(user):
             if self.__sendToDatabase(user):
@@ -34,27 +42,6 @@ class AccountController:
         if user.GetUsername() !="" and user.GetPassword() != "":
             return True
         return False
-            
-    def Login(self, user):
-        if self.__isValid(user):
-            if self.__isAuthentic(user):
-                self.__authorize(user)
-                Config.loggedInUser = user
-            else:
-                print("Incorrect username or password")
-        else:
-            print("Please write a username and a password")
-
-    def __isAuthentic(self, user):
-        cursor = self.__db.cursor()
-        cursor.execute("SELECT id FROM 'user' WHERE username = '"+user.GetUsername()+"' AND password = '"+user.GetPassword()+"'")
-        record = cursor.fetchone()
-        if record!=None:
-            return True
-        return False
-
-    def __authorize(self, user):
-        print(user.GetUsername() + " is Logged In...")
 
     def Remove(self, user):
         if self.__isValid(user):
@@ -62,14 +49,14 @@ class AccountController:
                 if self.__DelUser(user):
                     print(f"User {user.GetUsername()}  was deleted successfully")
             else:
-                print("User with these credentials does not exist!")
+                print("Client with these credentials does not exist!")
         else:
-            print("Please write a username and a password")
+            print("Please write a firstname and a lastname")
 
-    def __DelUser(self, user):
+    def __DelUser(self, client):
         try:
             cursor = self.__db.cursor()
-            query = f"DELETE FROM 'user' WHERE username = '{user.GetUsername()}'"
+            query = f"DELETE FROM 'client' WHERE username = '{client.GetFname()}' AND lastname = '{client.GetLname}'"
             cursor.execute(query)
             self.__db.commit()
             return True
@@ -79,26 +66,14 @@ class AccountController:
         finally:
             cursor.close()  
 
-    def ChangePassword(self, user):
-        if self.IsValidLogin(user):
-            if self.IsAuthentic(user):
-                self.UpdatePassword(user)
-            else:
-                print("The username and password is Incorrect")
-                return False
-        else:
-            print("Please write a username and a password")
-            return False
-
-    def UpdatePassword(self, user):
-        
-        user.SetPassword(input("Create a new Password: "))
-        query = f"UPDATE 'user' SET password = '{user.GetPassword()}' WHERE username = '{user.GetUsername()}'"
+    def UpdatePhone(self, client):
+        client.SetPhone(input("New phonenumber: "))
+        query = f"UPDATE 'client' SET phone = '{client.GetPhone()}' WHERE firstname = '{client.GetFname()}' AND lastname = '{client.GetLname()}'"
         try:
             cursor = self.__db.cursor()
             cursor.execute(query)
             self.__db.commit()
-            print("Password was changed successfully!")
+            print("Phonenumber was changed successfully!")
             cursor.close()
             return True
         except Exception as e:

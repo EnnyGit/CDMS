@@ -23,8 +23,6 @@ class Address():
     def SetZipcode(self, param):
         self.zipcode = param
 
-    def SetCity(self, param):
-        self.city = param
 
     #getters
     def GetCity(self):
