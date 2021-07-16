@@ -94,36 +94,3 @@ class UserController:
         chars = '''0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ~!@#$%^&*_-+=`|\(){}[]:;'<>,.?/'''
         temppassword = f'{chars[randint(0,9)]}{chars[randint(0,9)]}{chars[randint(10,35)]}{chars[randint(10,35)]}{chars[randint(36,61)]}{chars[randint(36,61)]}{chars[randint(62,92)]}{chars[randint(62,92)]}'
         return temppassword
-
-    #TODO move to view
-    def SetTempPassword(self, user):
-        temppassword = self.NewTempPassword()
-        print(f'Your new temporary password is: {temppassword}')
-        user.SetPassword(temppassword)
-
-    #TODO move to view
-    def updatePassword(self, user):
-        while True:
-            #TODO Log this
-            currentpassword = input('Please enter your current password for authentication or type exit to return to the main menu.\n')
-            if Config.loggedInUser.password == currentpassword:
-                while True:
-                    userinput = input("Please enter your new password, alphanumeric characters and special characters (~!@#$%^&*_-+\\|(){}[]:;'<>,.?/) are allowed\nPassword must contain at least one lowercase letter, uppercase letter, digit and special character\n")
-                    #TODO log some stuff here?
-                    if self.validator.passwordValidation(userinput) == True:
-                        Config.loggedInUser.password = userinput
-                        self.UpdateUser(Config.loggedInUser)
-                        #TODO Save changes to database and display message
-                        return
-                    if len(userinput) > 30 or len(userinput) < 8:
-                        print("Password must be within 8-30 characters.\n")
-                    if not self.validator.containsLowercase(userinput):
-                        print("Password must contain a lowercase letter")
-                    if not self.validator.containsUppercase(userinput):
-                        print("Password must contain an uppercase letter")
-                    if not self.validator.containsSpecialCharacter(userinput):
-                        print("Password must contain a special character")
-                    if not self.validator.containsDigit(userinput):
-                        print("Password must contain a digit")
-            elif currentpassword == 'exit':
-                return

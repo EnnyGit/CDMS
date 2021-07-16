@@ -15,6 +15,7 @@ class TestView:
     clientController = ClientController()
     database = DatabaseController()
 
+    #TODO Crashes on wrong username/password combination
     @staticmethod
     def login():
         print("----------Welcome-----------")
