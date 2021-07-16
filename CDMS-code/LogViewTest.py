@@ -10,4 +10,9 @@ Log = Log(
     information="Password `admin234` is tried in combination with username `admin`"
 )
 #Logger.Log(Log)
-Logger.GetAllLogs()
+
+
+
+
+Logs = Logger.GetAllLogs()
+Logger.PrintAllLogs(Logs)

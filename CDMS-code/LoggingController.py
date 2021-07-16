@@ -62,8 +62,7 @@ class LoggingController:
                 logs = []
                 lineCount = 0
                 for log in dictReader:
-                    if lineCount > 0:
-                        logs.append(self.__DecryptLog(log))
+                    logs.append(self.__DecryptLog(log))
                     lineCount += 1
                 return logs
         except Exception as e:
@@ -72,10 +71,9 @@ class LoggingController:
 
     def PrintAllLogs(self, logs):
         fields = ['id','username', 'date', 'time', 'description', 'information', 'suspicious', 'read']
+        lineCount = 0
+        print(f"{fields[0]:4}| {fields[1]:10}| {fields[2]:10}| {fields[3]:8}| {fields[4]:19}| {fields[5]:65}| {fields[6]:11}| {fields[7]}")
         for log in logs:
-            if lineCount == 0:
-                print(f"{fields[0]:4}| {fields[1]:10}| {fields[2]:10}| {fields[3]:8}| {fields[4]:19}| {fields[5]:65}| {fields[6]:11}| {fields[7]}")
-                lineCount += 1
             print(f"%-{log['id']:2}| {log['username']:10}| {log['date']:10}| {log['time']:8}| {log['description']:19}| {log['information']:65}| {log['suspicious']:11}| {log['read']}")
             lineCount += 1
 
