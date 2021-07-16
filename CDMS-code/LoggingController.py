@@ -46,13 +46,13 @@ class LoggingController:
         return log
 
     def __DecryptLog(self, log):
-        log.username = self.__encrypt.CaesarDecipher(log.username)
-        log.date = self.__encrypt.CaesarDecipher(log.date)
-        log.time = self.__encrypt.CaesarDecipher(log.time)
-        log.description = self.__encrypt.CaesarDecipher(log.description)
-        log.information = self.__encrypt.CaesarDecipher(log.information)
-        log.suspicious = self.__encrypt.CaesarDecipher(log.suspicious)
-        log.read = self.__encrypt.CaesarDecipher(log.read)
+        log['username'] = self.__encrypt.CaesarDecipher(log['username'])
+        log['date'] = self.__encrypt.CaesarDecipher(log['date'])
+        log['time'] = self.__encrypt.CaesarDecipher(log['time'])
+        log['description'] = self.__encrypt.CaesarDecipher(log['description'])
+        log['information'] = self.__encrypt.CaesarDecipher(log['information'])
+        log['suspicious'] = self.__encrypt.CaesarDecipher(log['suspicious'])
+        log['read'] = self.__encrypt.CaesarDecipher(log['read'])
         return log
 
     def GetAllLogs(self):
