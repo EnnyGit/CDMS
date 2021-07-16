@@ -1,5 +1,4 @@
 from ValidationController import Validation
-import Config
 
 class User:
     validator = Validation()
@@ -110,29 +109,3 @@ class User:
                 print("Password must contain a special character")
             if not self.validator.containsDigit(userinput):
                 print("Password must contain a digit")
-
-    @staticmethod
-    def updatePassword():
-        while True:
-            #TODO Log this
-            currentpassword = input('Please enter your current password for authentication or type exit to return to the main menu.\n')
-            if Config.loggedInUser.password == currentpassword:
-                while True:
-                    userinput = input("Please enter your new password, alphanumeric characters and special characters (~!@#$%^&*_-+\\|(){}[]:;'<>,.?/) are allowed\nPassword must contain at least one lowercase letter, uppercase letter, digit and special character\n")
-                    #TODO log some stuff here?
-                    if User.validator.passwordValidation(userinput) == True:
-                        Config.loggedInUser.password = userinput
-                        #TODO Save changes to database and display message
-                        return
-                    if len(userinput) > 30 or len(userinput) < 8:
-                        print("Password must be within 8-30 characters.\n")
-                    if not User.validator.containsLowercase(userinput):
-                        print("Password must contain a lowercase letter")
-                    if not User.validator.containsUppercase(userinput):
-                        print("Password must contain an uppercase letter")
-                    if not User.validator.containsSpecialCharacter(userinput):
-                        print("Password must contain a special character")
-                    if not User.validator.containsDigit(userinput):
-                        print("Password must contain a digit")
-            elif currentpassword == 'exit':
-                return
