@@ -143,9 +143,9 @@ class Navigator:
                 (f'Username:         {self.currentUser.GetUsername()}', self.currentUser.inputUsername), #TODO check if username exists
                 (f'First name:       {self.currentUser.GetFname()}', self.currentUser.inputFname),
                 (f'Last name:        {self.currentUser.GetLname()}', self.currentUser.inputLname),
-                (f'Reset to temporary password', self.placeHolder),
+                (f'Reset to temporary password', lambda: self.userController.SetTempPassword(user)),
                 ('Confirm changes', self.placeHolder), #TODO Update database
-                ('Return to main menu', self.skip)
+                ('Return to search', self.skip)
             ]
             exit = self.switchfunctionInput(options, False)
             if exit == True:
@@ -209,8 +209,7 @@ class Navigator:
         print('   [ID], [Username], [First name], [Last name], [Registration date]')
         options = []
         for u in users:
-            tempuser = User(u.GetId(), u.GetUsername(), u.GetPassword(), u.GetFname(), u.GetLname(), u.GetRegistrationDate(), u.GetRole())
-            options.append(((f'[{u.id}],   {u.username},   {u.firstname}, {u.lastname}, {u.registrationDate}'), lambda: self.modifyUser(tempuser)))
+            options.append(((f'[{u.id}],   {u.username},   {u.firstname}, {u.lastname}, {u.registrationDate}'), lambda u=u: self.modifyUser(u)))
         options.append(('Return to search menu', self.skip))
         self.switchfunction(options)
         

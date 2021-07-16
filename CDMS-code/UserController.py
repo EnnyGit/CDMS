@@ -1,6 +1,7 @@
 from dbContext import SqlDatabase
 from datetime import date, datetime
 from UserModel import User
+from random import randint
 
 
 class UserController:
@@ -72,3 +73,14 @@ class UserController:
             return userList
         except Exception as e:
             print("Usercontroller Line 74: " , e)
+
+    def NewTempPassword(self):
+        chars = '''0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ~!@#$%^&*_-+=`|\(){}[]:;'<>,.?/'''
+        temppassword = f'{chars[randint(0,9)]}{chars[randint(0,9)]}{chars[randint(10,35)]}{chars[randint(10,35)]}{chars[randint(36,61)]}{chars[randint(36,61)]}{chars[randint(62,92)]}{chars[randint(62,92)]}'
+        return temppassword
+
+    #TODO move to view
+    def SetTempPassword(self, user):
+        temppassword = self.NewTempPassword()
+        print(f'Your new temporary password is: {temppassword}')
+        user.SetPassword(temppassword)
