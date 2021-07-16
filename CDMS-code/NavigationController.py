@@ -8,6 +8,7 @@ from UserController import UserController
 from ClientModel import Client
 from UserModel import User
 from AddressModel import Address
+from FileController import FileController
 import Config
 
 class Navigator:
@@ -15,6 +16,7 @@ class Navigator:
     currentUser = User()
     clientController = ClientController()
     userController = UserController()
+    fileController = FileController()
 
     def __init__(self):
         self.validator = validation.Validation()
@@ -87,7 +89,7 @@ class Navigator:
         print('-----Administration menu-----')
         options = [
             ('Check list of users/roles', self.placeHolder),
-            ('Make system backup', self.placeHolder),
+            ('Make system backup', self.fileController.CreateBackup),
             ('Check log files', self.placeHolder),
             ('Return to main menu', self.skip)
         ]
