@@ -37,7 +37,7 @@ class Navigator:
         options = [
             ('Search client', self.searchClient),
             ('Register new client', self.registerNewClient),
-            ('Update own password', User.updatePassword),
+            ('Update own password', lambda: self.userController.updatePassword(Config.loggedInUser)),
             ('Search advisors', self.searchAdvisor),
         ]
 
