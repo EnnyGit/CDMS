@@ -1,5 +1,6 @@
 from dbContext import SqlDatabase
 from ClientModel import Client
+from LogModel import Log
 import Config
 
 
@@ -17,6 +18,11 @@ class ClientController:
             cursor.execute(query)
             self.__db.commit()
             cursor.close()
+            self._logger.Log(Log(
+                suspicious="No",
+                description=f"New client is created",
+                information=f"Name: {client.GetFname()}"
+            ))
             return True
         except Exception as e:
             print(e)
@@ -38,7 +44,6 @@ class ClientController:
             dbData = cursor.fetchone()
             dbClient = Client(dbData[0], dbData[1], dbData[2], dbData[3], dbData[4], dbData[5])
             Config.selectedClient = dbClient
-            print("TEST: " + Config.selectedClient.phone)
         except Exception as e:
             print("ClientController Line 42: " + e)
 
@@ -73,7 +78,7 @@ class ClientController:
             if self.__sendToDatabase(client):
                 print(f"Client {client.GetFname()} {client.GetLname()} was registered successfully")
         else:
-            print("Please fill in all the fields!")
+            print(" INFO: Please fill in all the fields!\n")
             
 
     def __isValid(self, user):
@@ -85,11 +90,16 @@ class ClientController:
         if self.__isValid(user):
             if self.__isAuthentic(user):
                 if self.__DelUser(user):
-                    print(f"User {user.GetUsername()}  was deleted successfully")
+                    print(f"User {user.GetUsername()} was deleted successfully")
+                    self._logger.Log(Log(
+                        suspicious="No",
+                        description=f"{user.GetRole()} user is deleted",
+                        information=f"User \"{user.GetUsername()}\" is deleted"
+                    ))
             else:
-                print("Client with these credentials does not exist!")
+                print(" INFO: Client with these credentials does not exist!\n")
         else:
-            print("Please write a firstname and a lastname")
+            print(" INFO: Please write a firstname and a lastname\n")
 
     def __DelUser(self, client):
         try:
@@ -105,13 +115,13 @@ class ClientController:
             cursor.close()  
 
     def UpdateClient(self, client, id):
-        client.SetPhone(input("New phonenumber: "))
+        client.SetPhone(input(" New phonenumber: "))
         query = f"UPDATE 'client' SET firstname = '{client.GetFname()}', lastname = '{client.GetLname()}', address = '{client.GetAddress()}', email = '{client.GetEmail()}', phone = '{client.GetPhone()}' WHERE id = '{client.GetId()}'"
         try:
             cursor = self.__db.cursor()
             cursor.execute(query)
             self.__db.commit()
-            print("Phonenumber was changed successfully!")
+            print(" INFO: Phonenumber was changed successfully!\n")
             cursor.close()
             return True
         except Exception as e:

@@ -7,12 +7,13 @@ class LogView:
 
     def PrintAllLogs(self):
         Logs = self.Logger.GetAllLogs()
-        fields = ['id','username', 'date', 'time', 'description', 'information', 'suspicious', 'read']
+        fields = ['No','Username', 'Date', 'Time', 'Description of Activity', 'Additional Information', 'Suspicious', 'read']
         lineCount = 0
-        print(f"{fields[0]:4}| {fields[1]:10}| {fields[2]:10}| {fields[3]:8}| {fields[4]:19}| {fields[5]:65}| {fields[6]:11}| {fields[7]}")
+        print(f"\n {fields[0]:4}| {fields[1]:10}| {fields[2]:10}| {fields[3]:8}| {fields[4]:25}| {fields[5]:80}| {fields[6]:11}")
         for log in Logs:
-            print(f"{log['id']:4}| {log['username']:10}| {log['date']:10}| {log['time']:8}| {log['description']:19}| {log['information']:65}| {log['suspicious']:11}| {log['read']}")
+            print(f" {log['id']:4}| {log['username']:10}| {log['date']:10}| {log['time']:8}| {log['description']:25}| {log['information']:80}| {log['suspicious']:11}")
             lineCount += 1
+        print("-------------------------------------------------------------------[ End of Log ]--------------------------------------------------------------------\n")
         self.Logger.ChangeLogsToRead()
 
 Logger = LoggingController()

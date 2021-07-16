@@ -38,7 +38,7 @@ class LoggingController:
             if log['suspicious'] == "Yes":
                 numberOfAlerts += 1
         if numberOfAlerts > 0:
-            return f"WARNING: You have {numberOfAlerts} unread suspicious logs !!"
+            return f"\n WARNING: You have {numberOfAlerts} unread suspicious logs !!\n"
 
     def __EncryptLog(self, log):
         log.username = self.__encrypt.CaesarCipher(log.username)

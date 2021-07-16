@@ -17,20 +17,23 @@ class AccountView:
 
     @staticmethod
     def login():
-        print("----------Welcome-----------")
-        AccountView.u.SetUsername(input("Please write your Username: "))
-        AccountView.u.SetPassword(input("Please write your Password: "))
+        print("--------------------[ Welcome ]----------------------\n")
+        print(" Please login to your account\n")
+        #AccountView.u.SetUsername(input(" Username: "))
+        #AccountView.u.SetPassword(input(" Password: "))
+        AccountView.u.SetUsername("superadmin")
+        AccountView.u.SetPassword("Admin!23")
         return AccountView.acc.Login(AccountView.u)
 
     @staticmethod
     def registerUser():
         print("----------User Registration-----------")
-        AccountView.u.SetUsername(input("Username: "))
-        AccountView.u.SetPassword(input("Password: "))
-        AccountView.u.SetFname(input("First Name: "))
-        AccountView.u.SetLname(input("Last Name: "))
-        AccountView.u.SetRegistrationDate(f"{date.today().strftime('%d-%m-%Y')}, {datetime.now().strftime('%H:%M:%S')}")
-        AccountView.u.SetRole(input("Role: "))
+        AccountView.u.SetUsername(input(" Username: "))
+        AccountView.u.SetPassword(input(" Password: "))
+        AccountView.u.SetFname(input(" First Name: "))
+        AccountView.u.SetLname(input(" Last Name: "))
+        AccountView.u.SetRegistrationDate(f" {date.today().strftime('%d-%m-%Y')}, {datetime.now().strftime('%H:%M:%S')}")
+        AccountView.u.SetRole(input(" Role: "))
         AccountView.acc.Save(AccountView.u)
 
     @staticmethod

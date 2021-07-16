@@ -20,6 +20,11 @@ class AccountController:
             cursor.execute(query)
             self.__db.commit()
             cursor.close()
+            self._logger.Log(Log(
+                suspicious="No",
+                description=f"New {user.GetRole()} user is created",
+                information=f"User name: {user.GetUsername()}"
+            ))
             return True
         except Exception as e:
             print(e)
@@ -28,10 +33,9 @@ class AccountController:
     def Save(self, user):
         if self.__isValid(user):
             if self.__sendToDatabase(user):
-                #Config.loggedInUser = user
-                print(f"User {user.GetUsername()} was registered successfully")
+                print(f" INFO: User {user.GetUsername()} was registered successfully\n")
         else:
-            print("Please fill in all  the fields!")
+            print(" ERROR: Please fill in all  the fields!\n")
             
 
     def __isValid(self, user):
@@ -55,10 +59,10 @@ class AccountController:
                     description="Unsuccessful login",
                     information=f"Password '{user.GetPassword()}'' is tried in combination with Username '{user.GetUsername()}'"
                 ))
-                print("Incorrect username or password")
+                print(" ERROR: Incorrect username or password\n")
                 return False
         else:
-            print("Please write a username and a password")
+            print(" ERROR: Please write a username and a password\n")
             return False
 
     def __isAuthentic(self, user):
@@ -70,18 +74,20 @@ class AccountController:
             return True
         return False
 
-    def __authorize(self, user):
-        print(user.GetUsername() + " is Logged In...")
-
     def Remove(self, user):
         if self.__isValid(user):
             if self.__isAuthentic(user):
                 if self.__DelUser(user):
-                    print(f"User {user.GetUsername()}  was deleted successfully")
+                    print(f" INFO: User {user.GetUsername()}  was deleted successfully\n")
+                    self._logger.Log(Log(
+                        suspicious="No",
+                        description=f"{user.GetRole()} user is deleted",
+                        information=f"User \"{user.GetUsername()}\" is deleted"
+                    ))
             else:
-                print("User with these credentials does not exist!")
+                print(" INFO: User with these credentials does not exist!\n")
         else:
-            print("Please write a username and a password")
+            print(" INFO: Please write a username and a password\n")
 
     def __DelUser(self, user):
         try:
@@ -112,22 +118,26 @@ class AccountController:
         if self.IsValidLogin(user):
             if self.IsAuthentic(user):
                 self.UpdatePassword(user)
+                self._logger.Log(Log(
+                    suspicious="No",
+                    description=f"Update password",
+                    information=f"Password of {user.GetUsername()} has been updated"
+                ))
             else:
-                print("The username and password is Incorrect")
+                print(" INFO: The username and password is Incorrect\n")
                 return False
         else:
-            print("Please write a username and a password")
+            print(" INFO: Please write a username and a password\n")
             return False
 
     def UpdatePassword(self, user):
-        
         user.SetPassword(input("Create a new Password: "))
         query = f"UPDATE 'user' SET password = '{user.GetPassword()}' WHERE username = '{user.GetUsername()}'"
         try:
             cursor = self.__db.cursor()
             cursor.execute(query)
             self.__db.commit()
-            print("Password was changed successfully!")
+            print("INFO: Password was changed successfully!\n")
             cursor.close()
             return True
         except Exception as e:

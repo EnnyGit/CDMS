@@ -9,81 +9,84 @@ class UserView:
 
     def inputFname(self, user):
         while True:
-            userinput = input('Please input user\'s first name\n')
+            userinput = input('\n First name: ')
             if self.validator.nameValidation(userinput) == True:
                 user.firstname = userinput
                 return
             elif len(userinput) > 20 or len(userinput) == 0:
-                print("first name must be within 1-20 characters.\n")
+                print(" ERROR: First name must be within 1-20 characters.\n")
             else:
-                print("first name must only contain letters, spaces ( ) and hyphens (-)\n")
+                print(" ERROR: First name must only contain letters, spaces ( ) and hyphens (-)\n")
 
     def inputLname(self, user):
         while True:
-            userinput = input('Please input user\'s last name\n')
+            userinput = input('\n Last name: ')
             if self.validator.nameValidation(userinput) == True:
                 user.lastname = userinput
                 return
             elif len(userinput) > 20 or len(userinput) == 0:
-                print("last name must be within 1-20 characters.\n")
+                print(" ERROR: Last name must be within 1-20 characters.\n")
             else:
-                print("last name must only contain letters, spaces ( ) and hyphens (-)\n")
+                print(" ERROR: Last name must only contain letters, spaces ( ) and hyphens (-)\n")
 
     def inputUsername(self, user):
         while True:
-            userinput = input('Please input user\'s username\n')
+            userinput = input('\n Username: ')
             if self.validator.usernameValidation(userinput) == True:
                 user.username = userinput
                 return
             elif len(userinput) > 20 or len(userinput) < 5:
-                print("username must be within 5-20 characters.\n")
+                print(" ERROR: Username must be within 5-20 characters.\n")
             else:
-                print("username must start with a letter and only contain alphanumeric characters and dashes (-), underscores (_), apostrophes ('), and periods (.)'\n")
+                print(" ERROR: Username must start with a letter and only contain alphanumeric characters and dashes (-), underscores (_), apostrophes ('), and periods (.)'\n")
 
     def inputPassword(self, user):
         while True:
-            userinput = input("Please input user\'s password, alphanumeric characters and special characters (~!@#$%^&*_-+\\|(){}[]:;'<>,.?/) are allowed\nPassword must contain at least one lowercase letter, uppercase letter, digit and special character\n")
+            print("\n Alphanumeric characters and special characters are allowed\n Password must contain at least one lowercase letter, uppercase letter, digit and special character")
+            userinput = input("\n Password: ")
 
             if self.validator.passwordValidation(userinput) == True:
                 user.password = userinput
                 return
             if len(userinput) > 30 or len(userinput) < 8:
-                print("Password must be within 8-30 characters.\n")
+                print(" ERROR: Password must be within 8-30 characters.\n")
             if not self.validator.containsLowercase(userinput):
-                print("Password must contain a lowercase letter")
+                print(" ERROR: Password must contain a lowercase letter")
             if not self.validator.containsUppercase(userinput):
-                print("Password must contain an uppercase letter")
+                print(" ERROR: Password must contain an uppercase letter")
             if not self.validator.containsSpecialCharacter(userinput):
-                print("Password must contain a special character")
+                print(" ERROR: Password must contain a special character")
             if not self.validator.containsDigit(userinput):
-                print("Password must contain a digit")
+                print(" ERROR: Password must contain a digit")
 
     def SetTempPassword(self, user):
         temppassword = self.NewTempPassword()
-        print(f'Your new temporary password is: {temppassword}')
+        print(f' INFO: Your new temporary password is: {temppassword}')
         user.SetPassword(temppassword)
 
-    def updatePassword(self):
+    def updatePassword(self, user):
         while True:
             #TODO Log this
-            currentpassword = input('Please enter your current password for authentication or type exit to return to the main menu.\n')
-            if Config.loggedInUser.password == currentpassword:
+            print("\n Please enter your current password for authentication or type exit to return to the main menu.")
+            currentpassword = input('\n Current Password: ')
+            if user.password == currentpassword:
                 while True:
-                    userinput = input("Please enter your new password, alphanumeric characters and special characters (~!@#$%^&*_-+\\|(){}[]:;'<>,.?/) are allowed\nPassword must contain at least one lowercase letter, uppercase letter, digit and special character\n")
+                    print("\n Alphanumeric characters and special characters (~!@#$%^&*_-+\\|(){}[]:;'<>,.?/) are allowed\nPassword must contain at least one lowercase letter, uppercase letter, digit and special character")
+                    userinput = input("\n New Password: ")
                     #TODO log some stuff here?
                     if self.validator.passwordValidation(userinput) == True:
-                        Config.loggedInUser.password = userinput
-                        self.usercontroller.UpdateUser(Config.loggedInUser)
+                        user.password = userinput
+                        self.usercontroller.UpdateUser(user)
                         return
                     if len(userinput) > 30 or len(userinput) < 8:
-                        print("Password must be within 8-30 characters.\n")
+                        print(" ERROR: Password must be within 8-30 characters.\n")
                     if not self.validator.containsLowercase(userinput):
-                        print("Password must contain a lowercase letter")
+                        print(" ERROR: Password must contain a lowercase letter")
                     if not self.validator.containsUppercase(userinput):
-                        print("Password must contain an uppercase letter")
+                        print(" ERROR: Password must contain an uppercase letter")
                     if not self.validator.containsSpecialCharacter(userinput):
-                        print("Password must contain a special character")
+                        print(" ERROR: Password must contain a special character")
                     if not self.validator.containsDigit(userinput):
-                        print("Password must contain a digit")
+                        print(" ERROR: Password must contain a digit")
             elif currentpassword == 'exit':
                 return
