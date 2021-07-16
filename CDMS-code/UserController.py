@@ -35,6 +35,19 @@ class UserController:
         else:
             print("Username already exists, please try a new one.")
 
+    def UpdateUser(self, user):
+        query = f"UPDATE 'user' SET firstname = '{user.GetFname()}', lastname = '{user.GetLname()}', username = '{user.GetUsername()}', password = '{user.GetPassword()}' WHERE id = '{user.GetId()}'"
+        try:
+            cursor = self.__db.cursor()
+            cursor.execute(query)
+            self.__db.commit()
+            print("User information was changed successfully!")
+            cursor.close()
+            return True
+        except Exception as e:
+            print(e)
+            return False
+
     def __isValid(self, user):
         if user.GetFname() !="" and user.GetLname() != "" and user.GetPassword() != "" and user.GetUsername() != "":
             return True
@@ -59,7 +72,7 @@ class UserController:
                 userList.append(User(user[0], user[1], user[2], user[3], user[4], user[5], user[6]))
             return userList
         except Exception as e:
-            print("Usercontroller Line 61: " , e)
+            print("Usercontroller Line 75: " , e)
 
     def GetUserByUsername(self, param, role):
         try:
@@ -72,7 +85,7 @@ class UserController:
                 userList.append(User(user[0], user[1], user[2], user[3], user[4], user[5], user[6]))
             return userList
         except Exception as e:
-            print("Usercontroller Line 74: " , e)
+            print("Usercontroller Line 88: " , e)
 
     def NewTempPassword(self):
         chars = '''0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ~!@#$%^&*_-+=`|\(){}[]:;'<>,.?/'''
