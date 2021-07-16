@@ -1,7 +1,7 @@
 from dbContext import SqlDatabase
-from ClientModel import Client
-import Config
 from datetime import date, datetime
+from UserModel import User
+from random import randint
 
 
 class UserController:
@@ -35,6 +35,19 @@ class UserController:
         else:
             print("Username already exists, please try a new one.")
 
+    def UpdateUser(self, user):
+        query = f"UPDATE 'user' SET firstname = '{user.GetFname()}', lastname = '{user.GetLname()}', username = '{user.GetUsername()}', password = '{user.GetPassword()}' WHERE id = '{user.GetId()}'"
+        try:
+            cursor = self.__db.cursor()
+            cursor.execute(query)
+            self.__db.commit()
+            print("User information was changed successfully!")
+            cursor.close()
+            return True
+        except Exception as e:
+            print(e)
+            return False
+
     def __isValid(self, user):
         if user.GetFname() !="" and user.GetLname() != "" and user.GetPassword() != "" and user.GetUsername() != "":
             return True
@@ -47,3 +60,40 @@ class UserController:
         if record == None:
             return True
         return False
+
+    def GetUserByName(self, param, role):
+        try:
+            userList = []
+            cursor = self.__db.cursor()
+            query = f"SELECT * FROM 'user' WHERE firstname || ' ' || lastname LIKE '%{param}%' AND role = '{role}'"
+            cursor.execute(query)
+            dbData = cursor.fetchall()
+            for user in dbData:
+                userList.append(User(user[0], user[1], user[2], user[3], user[4], user[5], user[6]))
+            return userList
+        except Exception as e:
+            print("Usercontroller Line 75: " , e)
+
+    def GetUserByUsername(self, param, role):
+        try:
+            userList = []
+            cursor = self.__db.cursor()
+            query = f"SELECT * FROM 'user' WHERE username LIKE '%{param}%' AND role = '{role}'"
+            cursor.execute(query)
+            dbData = cursor.fetchall()
+            for user in dbData:
+                userList.append(User(user[0], user[1], user[2], user[3], user[4], user[5], user[6]))
+            return userList
+        except Exception as e:
+            print("Usercontroller Line 88: " , e)
+
+    def NewTempPassword(self):
+        chars = '''0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ~!@#$%^&*_-+=`|\(){}[]:;'<>,.?/'''
+        temppassword = f'{chars[randint(0,9)]}{chars[randint(0,9)]}{chars[randint(10,35)]}{chars[randint(10,35)]}{chars[randint(36,61)]}{chars[randint(36,61)]}{chars[randint(62,92)]}{chars[randint(62,92)]}'
+        return temppassword
+
+    #TODO move to view
+    def SetTempPassword(self, user):
+        temppassword = self.NewTempPassword()
+        print(f'Your new temporary password is: {temppassword}')
+        user.SetPassword(temppassword)

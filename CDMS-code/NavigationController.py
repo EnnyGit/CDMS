@@ -66,9 +66,8 @@ class Navigator:
     def searchAdvisor(self):
         print('--------Search advisor--------')
         options = [
-            ('Search advisor by name', self.placeHolder),
-            ('Search advisor by email', self.placeHolder),
-            ('Search advisor by username', self.placeHolder),
+            ('Search advisor by name', lambda: self.SearchByName('advisor')),
+            ('Search advisor by username', lambda: self.SearchByUsername('advisor')),
             ('Return to main menu', self.skip)
         ]
 
@@ -77,9 +76,8 @@ class Navigator:
     def searchAdministrators(self):
         print('----Search administrators----')
         options = [
-            ('Search administrator by name', self.placeHolder),
-            ('Search administrator by email', self.placeHolder),
-            ('Search administrator by username', self.placeHolder),
+            ('Search administrator by name',lambda: self.SearchByName('admin')),
+            ('Search administrator by username', lambda: self.SearchByUsername('admin')),
             ('Return to main menu', self.skip)
         ]
 
@@ -133,6 +131,25 @@ class Navigator:
             if exit == True:
                 return
 
+    def modifyUser(self, user):
+        self.currentUser = user
+        while True:
+            if user.role == 'advisor':
+                print('--------Modify advisor--------')
+            elif user.role == 'admin':
+                print('-----Modify administrator-----')
+            options = [
+                (f'Username:         {self.currentUser.GetUsername()}', user.inputUsername), #TODO check if username exists
+                (f'First name:       {self.currentUser.GetFname()}', user.inputFname),
+                (f'Last name:        {self.currentUser.GetLname()}', user.inputLname),
+                (f'Reset to temporary password', lambda: self.userController.SetTempPassword(user)),
+                ('Confirm changes', lambda: self.userController.UpdateUser(user)), #TODO Update database
+                ('Return to search', self.skip)
+            ]
+            exit = self.switchfunctionInput(options, False)
+            if exit == True:
+                return
+
 
     def addAddress(self):
         while True:
@@ -167,6 +184,50 @@ class Navigator:
             exit = self.switchfunctionInput(options, True)
             if exit == True:
                 return
+
+    # TODO Move to view
+    def SearchByName(self, role):
+        while True:
+            if role == 'admin':
+                print('-----Search admin by name-----')
+            elif role == 'advisor':
+                print('----Search advisor by name----')
+            userinput = input("Please enter name to search for or type 'exit' to leave\n")
+            if userinput == 'exit':
+                return
+            users = self.userController.GetUserByName(userinput, role)
+            if len(users) != 0:
+                self.userListMenu(users)
+                return
+            else:
+                print('No users containing this name found, please try again.')
+
+    # TODO Move to view
+    def SearchByUsername(self, role):
+        while True:
+            if role == 'admin':
+                print('---Search admin by username---')
+            elif role == 'advisor':
+                print('--Search advisor by username--')
+            userinput = input("Please enter username to search for or type 'exit' to leave\n")
+            if userinput == 'exit':
+                return
+            users = self.userController.GetUserByUsername(userinput, role)
+            if len(users) != 0:
+                self.userListMenu(users)
+                return
+            else:
+                print('No users containing this username found, please try again.')
+            
+    #TODO layout verbeteren
+    def userListMenu(self, users):
+        print('----------User list----------')
+        print('   [ID], [Username], [First name], [Last name], [Registration date]')
+        options = []
+        for u in users:
+            options.append(((f'[{u.id}],   {u.username},   {u.firstname}, {u.lastname}, {u.registrationDate}'), lambda u=u: self.modifyUser(u)))
+        options.append(('Return to search menu', self.skip))
+        self.switchfunction(options)
         
 
     def switchfunctionInput(self, options, returntype):

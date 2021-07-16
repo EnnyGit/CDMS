@@ -3,7 +3,6 @@ import ValidationController as validation
 import NavigationController as navigation
 import AccountContoller as accountcontrol
 import testView as testview
-import Config
 
 def Main():
     testview.TestView.login()

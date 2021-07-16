@@ -34,6 +34,9 @@ class User:
         self.registrationDate = param
         
     #getters
+    def GetId(self):
+        return self.id
+
     def GetUsername(self):
         return self.username
 
