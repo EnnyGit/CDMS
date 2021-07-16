@@ -1,10 +1,7 @@
-import SanitationController as sanitation
-import ValidationController as validation
-import NavigationController as navigation
-import AccountContoller as accountcontrol
 from AccountView import AccountView
 import Config
 from LoggingController import LoggingController
+import NavigationView as navigation
 
 def Main():
     Logger = LoggingController()
@@ -19,6 +16,4 @@ def Main():
         navigator.mainMenu()
 
 navigator = navigation.Navigator()
-validator = validation.Validation()
-accountcontroller = accountcontrol.AccountController()
 Main()
