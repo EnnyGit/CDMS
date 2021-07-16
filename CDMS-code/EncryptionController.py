@@ -1,5 +1,5 @@
 class EncryptionController:
-    allowedcharacters = '''abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ~!@#$%^&*_-+=`|\(){}[]:;'<>,.?/'''
+    allowedcharacters = '''0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ~!@#$%^&*_-+=`|\(){}[]:;'<>,.?/'''
     offset = 5
 
     def __init__(self):
@@ -14,6 +14,7 @@ class EncryptionController:
             else:
                 newposition = currentposition + self.offset
             encryptedstring += self.allowedcharacters[newposition]
+        return encryptedstring
 
     def CaesarDecipher(self, encryptedstring):
         decryptedstring = ''
@@ -24,3 +25,4 @@ class EncryptionController:
             else:
                 newposition = currentposition - self.offset
             decryptedstring += self.allowedcharacters[newposition]
+        return decryptedstring
