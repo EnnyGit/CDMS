@@ -1,7 +1,6 @@
 from dbContext import SqlDatabase
-from ClientModel import Client
-import Config
 from datetime import date, datetime
+from UserModel import User
 
 
 class UserController:
@@ -47,3 +46,29 @@ class UserController:
         if record == None:
             return True
         return False
+
+    def GetUserByName(self, param, role):
+        try:
+            userList = []
+            cursor = self.__db.cursor()
+            query = f"SELECT * FROM 'user' WHERE firstname || ' ' || lastname LIKE '%{param}%' AND role = '{role}'"
+            cursor.execute(query)
+            dbData = cursor.fetchall()
+            for user in dbData:
+                userList.append(User(user[0], user[1], user[2], user[3], user[4], user[5], user[6]))
+            return userList
+        except Exception as e:
+            print("Usercontroller Line 61: " , e)
+
+    def GetUserByUsername(self, param, role):
+        try:
+            userList = []
+            cursor = self.__db.cursor()
+            query = f"SELECT * FROM 'user' WHERE username LIKE '%{param}%' AND role = '{role}'"
+            cursor.execute(query)
+            dbData = cursor.fetchall()
+            for user in dbData:
+                userList.append(User(user[0], user[1], user[2], user[3], user[4], user[5], user[6]))
+            return userList
+        except Exception as e:
+            print("Usercontroller Line 74: " , e)
