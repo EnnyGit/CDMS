@@ -1,11 +1,14 @@
 from dbContext import SqlDatabase
 from UserModel import User
+from LoggingController import LoggingController
+from LogModel import Log
 import Config
 
 
 class AccountController:
 
     __db=None
+    _logger = LoggingController()
 
     def __init__(self):
         self.__db= SqlDatabase.Connect()
@@ -25,7 +28,7 @@ class AccountController:
     def Save(self, user):
         if self.__isValid(user):
             if self.__sendToDatabase(user):
-                Config.loggedInUser = user
+                #Config.loggedInUser = user
                 print(f"User {user.GetUsername()} was registered successfully")
         else:
             print("Please fill in all  the fields!")
@@ -39,17 +42,30 @@ class AccountController:
     def Login(self, user):
         if self.__isValid(user):
             if self.__isAuthentic(user):
-                self.__authorize(user)
+                self._logger.Log(Log(
+                    suspicious="No",
+                    description="Logged In",
+                    information=""
+                ))
                 self.SetLogedInUserData(user)
+                return True
             else:
+                self._logger.Log(Log(
+                    suspicious="Yes",
+                    description="Unsuccessful login",
+                    information=f"Password '{user.GetPassword()}'' is tried in combination with Username '{user.GetUsername()}'"
+                ))
                 print("Incorrect username or password")
+                return False
         else:
             print("Please write a username and a password")
+            return False
 
     def __isAuthentic(self, user):
         cursor = self.__db.cursor()
         cursor.execute("SELECT id FROM 'user' WHERE username = '"+user.GetUsername()+"' AND password = '"+user.GetPassword()+"'")
         record = cursor.fetchone()
+        Config.currentUsername = user.GetUsername()
         if record!=None:
             return True
         return False
@@ -70,7 +86,7 @@ class AccountController:
     def __DelUser(self, user):
         try:
             cursor = self.__db.cursor()
-            query = f"DELETE FROM 'user' WHERE username = '{user.GetUsername()}'"
+            query = f"DELETE FROM 'id' WHERE username = '{user.GetId()}'"
             cursor.execute(query)
             self.__db.commit()
             return True
@@ -88,6 +104,7 @@ class AccountController:
             dbData = cursor.fetchone()
             dbUser = User(dbData[0], dbData[1], dbData[2], dbData[3], dbData[4], dbData[5], dbData[6])
             Config.loggedInUser = dbUser
+            Config.currentUsername = dbUser.GetUsername()
         except Exception as e:
             print(e)
 

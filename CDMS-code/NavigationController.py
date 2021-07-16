@@ -1,3 +1,4 @@
+from LogViewTest import LogView
 from UserController import UserController
 from os import curdir
 from re import findall
@@ -17,6 +18,7 @@ class Navigator:
     clientController = ClientController()
     userController = UserController()
     fileController = FileController()
+    logview = LogView()
 
     def __init__(self):
         self.validator = validation.Validation()
@@ -90,7 +92,7 @@ class Navigator:
         options = [
             ('Check list of users/roles', self.placeHolder),
             ('Make system backup', self.fileController.CreateBackup),
-            ('Check log files', self.placeHolder),
+            ('Check log files', self.logview.PrintAllLogs),
             ('Return to main menu', self.skip)
         ]
 

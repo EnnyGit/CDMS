@@ -2,28 +2,21 @@ import SanitationController as sanitation
 import ValidationController as validation
 import NavigationController as navigation
 import AccountContoller as accountcontrol
-import testView as testview
+from AccountView import AccountView
+import Config
+from LoggingController import LoggingController
 
 def Main():
-    testview.TestView.login()
+    Logger = LoggingController()
+    while True:
+        condition = AccountView.login()   
+        if condition:
+            break
+    if Config.loggedInUser.role == 'admin'  or Config.loggedInUser.role == 'superadmin':
+        if Logger.Alert() != None:
+            print(Logger.Alert())
     while True:
         navigator.mainMenu()
-
-#TODO Remove login function
-def Login():
-    while(True):
-        print("\x1b[0;37;40mPlease log in before using the system\n")
-        username = input("Please input username\n")
-        sanitation.StringSanitation(username)
-
-        
-        password = input("Please input password\n")
-        sanitation.StringSanitation(password)
-
-        if(not validator.ValidateUsernamePassword(username, password)):
-            print("\x1b[1;31;40mIncorrect username or password\n")
-        elif(validator.ValidateUsernamePassword(username, password)):
-            break
 
 navigator = navigation.Navigator()
 validator = validation.Validation()

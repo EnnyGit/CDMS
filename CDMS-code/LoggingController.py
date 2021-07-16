@@ -31,9 +31,14 @@ class LoggingController:
             print(e)
             return False
 
-    def Alert():
-        # Alert unread suspicious activities, once a admin is logged in
-        pass
+    def Alert(self):
+        numberOfAlerts = 0
+        unreadLogs = self.GetAllUnreadLogs()
+        for log in unreadLogs:
+            if log['suspicious'] == "Yes":
+                numberOfAlerts += 1
+        if numberOfAlerts > 0:
+            return f"WARNING: You have {numberOfAlerts} unread suspicious logs !!"
 
     def __EncryptLog(self, log):
         log.username = self.__encrypt.CaesarCipher(log.username)
@@ -43,6 +48,16 @@ class LoggingController:
         log.information = self.__encrypt.CaesarCipher(log.information)
         log.suspicious = self.__encrypt.CaesarCipher(log.suspicious)
         log.read = self.__encrypt.CaesarCipher(log.read)
+        return log
+
+    def __EncryptDictLog(self, log):
+        log['username'] = self.__encrypt.CaesarCipher(log['username'])
+        log['date'] = self.__encrypt.CaesarCipher(log['date'])
+        log['time'] = self.__encrypt.CaesarCipher(log['time'])
+        log['description'] = self.__encrypt.CaesarCipher(log['description'])
+        log['information'] = self.__encrypt.CaesarCipher(log['information'])
+        log['suspicious'] = self.__encrypt.CaesarCipher(log['suspicious'])
+        log['read'] = self.__encrypt.CaesarCipher(log['read'])
         return log
 
     def __DecryptLog(self, log):
@@ -69,14 +84,6 @@ class LoggingController:
             print(e)
             return False
 
-    def PrintAllLogs(self, logs):
-        fields = ['id','username', 'date', 'time', 'description', 'information', 'suspicious', 'read']
-        lineCount = 0
-        print(f"{fields[0]:4}| {fields[1]:10}| {fields[2]:10}| {fields[3]:8}| {fields[4]:19}| {fields[5]:65}| {fields[6]:11}| {fields[7]}")
-        for log in logs:
-            print(f"%-{log['id']:2}| {log['username']:10}| {log['date']:10}| {log['time']:8}| {log['description']:19}| {log['information']:65}| {log['suspicious']:11}| {log['read']}")
-            lineCount += 1
-
     def CalculateId(self):
         try:
             with open('logs.csv', mode='r') as csvfile:
@@ -89,8 +96,34 @@ class LoggingController:
             print(e)
             return False
 
-    def GetLogs(self, amount):
-        pass
+    def ChangeLogsToRead(self):
+        logs = self.GetAllLogs()
+        try:
+            with open('logs.csv', 'w', newline='') as csvfile:
+                dictWriter = DictWriter(csvfile, fieldnames=self.__fieldnames)
+                dictWriter.writeheader()
+                for log in logs:
+                    log['read'] = "Yes"
+                    encryptedLog = encryptedLog = self.__EncryptDictLog(log)
+                    dictWriter.writerow({
+                        'id': encryptedLog['id'],
+                        'username': encryptedLog['username'],
+                        'date': encryptedLog['date'],
+                        'time': encryptedLog['time'],
+                        'description': encryptedLog['description'],
+                        'information': encryptedLog['information'],
+                        'suspicious': encryptedLog['suspicious'],
+                        'read': encryptedLog['read']
+                    })
+        except Exception as e:
+            print(e)
+            return False
 
-    def GetAllUnreadLogs():
-        pass
+    def GetAllUnreadLogs(self):
+        logs = self.GetAllLogs()
+        unreadLogs = []
+        for log in logs:
+            if log['read'] == "No":
+                unreadLogs.append(log)
+        return unreadLogs
+        
