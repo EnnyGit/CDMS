@@ -128,7 +128,7 @@ class Navigator:
                 ('CONFIRM', lambda: self.clientController.Save(self.currentClient)), #TODO return to main menu?
                 ('RETURN', self.skip)
             ]
-            exit = self.switchfunctionInput(options, False)
+            exit = self.switchfunctionInput(options, [9,10])
             if exit == True:
                 return
         
@@ -148,7 +148,7 @@ class Navigator:
                 ('CONFIRM', lambda: self.userController.Save(self.currentUser, role)),
                 ('RETURN', self.skip)
             ]
-            exit = self.switchfunctionInput(options, False)
+            exit = self.switchfunctionInput(options, [5,6])
             if exit == True:
                 return
 
@@ -174,7 +174,7 @@ class Navigator:
 
     def modifyClient(self, client):
         while True:
-            print('-----Register new client-----')
+            print('-----Modify client-----')
             options = [
                 ('First name:        {}'.format(client.GetFname()), lambda: self.clientView.inputFirstName(client)),
                 ('Last name:         {}'.format(client.lastname), lambda: self.clientView.inputLastName(client)),
@@ -188,7 +188,7 @@ class Navigator:
                 ('Delete client', lambda: self.clientController.Remove(client)),
                 ('Return to main menu', self.skip)
             ]
-            exit = self.switchfunctionInput(options, False)
+            exit = self.switchfunctionInput(options, [9, 10, 11])
             if exit == True:
                 return
 
@@ -225,7 +225,7 @@ class Navigator:
                 ("San Jose", lambda: self.currentClient.SetCity("San Jose"))
             ]
             options.append(('RETURN', self.skip))
-            exit = self.switchfunctionInput(options, True)
+            exit = self.switchfunctionInput(options, [1,2,3,4,5,6,7,8,9,10,11])
             if exit == True:
                 return
 
@@ -304,7 +304,7 @@ class Navigator:
         self.switchfunction(options)
         
 
-    def switchfunctionInput(self, options, returntype):
+    def switchfunctionInput(self, options, returnoptions):
         counter = 1
         for o in options:
             print(' {}. {}'.format(counter, o[0]))
@@ -313,7 +313,7 @@ class Navigator:
         if(self.validator.inputNumberIsInRange(userinput, 1, len(options))):
             func = options[int(userinput) - 1][1]
             func()
-            if(int(userinput) == len(options)) or returntype == True:
+            if(int(userinput) in returnoptions):
                 return True
 
     def placeHolder(self):

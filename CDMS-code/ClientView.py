@@ -48,33 +48,33 @@ class ClientView:
             else:
                 print(" INFO: Phone must consist of only numbers\n")
 
-    def inputStreetName(self, address):
+    def inputStreetName(self, client):
         while True:
             userinput = input('\n Street name: ')
             if self.validator.streetNameValidation(userinput) == True:
-                address.streetname = userinput
+                client.streetname = userinput
                 return
             elif len(userinput) > 55 or len(userinput) == 0:
                 print(" ERROR: Streetname must be within 1-55 characters.\n")
             else:
                 print(" ERROR: Streetname must only contain the characters: [~!@#$%^&*_-+=` |\(){}[]:;'<>,.?/]\n")
 
-    def inputHouseNumber(self, address):
+    def inputHouseNumber(self, client):
         while True:
             userinput = input('\n House number: ')
             if self.validator.houseNumberValidation(userinput) == True:
-                address.housenumber = userinput
+                client.housenumber = userinput
                 return
             elif len(userinput) > 6 or len(userinput) == 0:
                 print(" ERROR: Housenumber must be within 1-6 characters.\n")
             else:
                 print(" ERROR: Housenumber must be a number between 1-99999 with an optional letter (e.g. 123a)\n")
 
-    def inputZipCode(self, address):
+    def inputZipCode(self, client):
         while True:
             userinput = input('\n Zipcode: ')
             if self.validator.zipCodeValidation(userinput) == True:
-                address.zipcode = userinput
+                client.zipcode = userinput
                 return
             elif len(userinput) > 6 or len(userinput) == 0:
                 print(" ERROR: Zipcode must be within 1-6 characters.\n")
