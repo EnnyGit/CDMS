@@ -37,6 +37,9 @@ class Client:
         self.phone = param
 
     # Getters
+    def GetId(self):
+        return self.id
+        
     def GetFname(self):
         return self.firstname
 
