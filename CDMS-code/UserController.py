@@ -94,3 +94,8 @@ class UserController:
         chars = '''0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ~!@#$%^&*_-+=`|\(){}[]:;'<>,.?/'''
         temppassword = f'{chars[randint(0,9)]}{chars[randint(0,9)]}{chars[randint(10,35)]}{chars[randint(10,35)]}{chars[randint(36,61)]}{chars[randint(36,61)]}{chars[randint(62,92)]}{chars[randint(62,92)]}'
         return temppassword
+
+    def SetTempPassword(self, user):
+        temppassword = self.NewTempPassword()
+        print(f' INFO: Your new temporary password is: {temppassword}')
+        user.SetPassword(temppassword)

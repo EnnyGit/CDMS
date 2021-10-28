@@ -59,10 +59,10 @@ class UserView:
             if not self.validator.containsDigit(userinput):
                 print(" ERROR: Password must contain a digit")
 
-    def SetTempPassword(self, user):
-        temppassword = self.NewTempPassword()
-        print(f' INFO: Your new temporary password is: {temppassword}')
-        user.SetPassword(temppassword)
+    # def SetTempPassword(self, user):
+    #     temppassword = self.NewTempPassword()
+    #     print(f' INFO: Your new temporary password is: {temppassword}')
+    #     user.SetPassword(temppassword)
 
     def updatePassword(self, user):
         while True:

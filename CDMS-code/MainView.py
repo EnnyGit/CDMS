@@ -2,6 +2,8 @@ from AccountView import AccountView
 import Config
 from LoggingController import LoggingController
 import NavigationView as navigation
+from DatabaseController import DatabaseController
+import initialDB
 
 def Main():
     Logger = LoggingController()
@@ -15,5 +17,7 @@ def Main():
     while True:
         navigator.mainMenu()
 
+#dbcontroller = DatabaseController()
+#dbcontroller.ExecuteQuery(initialDB.CreateClientTable())
 navigator = navigation.Navigator()
 Main()

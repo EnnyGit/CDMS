@@ -1,5 +1,5 @@
 from UserModel import User
-from AccountContoller import AccountController
+from AccountController import AccountController
 from ClientController import ClientController
 from DatabaseController import DatabaseController
 from datetime import date, datetime
@@ -19,10 +19,10 @@ class AccountView:
     def login():
         print("--------------------[ Welcome ]----------------------\n")
         print(" Please login to your account\n")
-        #AccountView.u.SetUsername(input(" Username: "))
-        #AccountView.u.SetPassword(input(" Password: "))
-        AccountView.u.SetUsername("superadmin")
-        AccountView.u.SetPassword("Admin!23")
+        AccountView.u.SetUsername(input(" Username: "))
+        AccountView.u.SetPassword(input(" Password: "))
+        #AccountView.u.SetUsername("superadmin")
+        #AccountView.u.SetPassword("Admin!23")
         return AccountView.acc.Login(AccountView.u)
 
     @staticmethod

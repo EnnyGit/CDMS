@@ -92,7 +92,7 @@ class AccountController:
     def __DelUser(self, user):
         try:
             cursor = self.__db.cursor()
-            query = f"DELETE FROM 'id' WHERE username = '{user.GetId()}'"
+            query = f"DELETE FROM 'user' WHERE id = '{user.GetId()}'"
             cursor.execute(query)
             self.__db.commit()
             return True

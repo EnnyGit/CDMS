@@ -10,11 +10,15 @@ def CreateUserTable():
     )''')
 
 def CreateClientTable():
-    return ('''CREATE TABLE client (
-        firstname text,
-        lastname text,
-        address blob,
-        email text,
-        phone text
+    return ('''CREATE TABLE 'client' (
+        id INTEGER PRIMARY KEY,
+        firstname TEXT,
+        lastname TEXT,
+        streetname TEXT,
+        housenumber TEXT,
+        zipcode TEXT,
+        city TEXT,
+        email TEXT,
+        phone TEXT
     )''')
     
