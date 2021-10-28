@@ -16,7 +16,7 @@ class ClientController:
     def __sendToDatabase(self, client):
         try:
             cursor = self.__db.cursor()
-            query = f"INSERT INTO 'client' VALUES ('{client.GetFname()}', '{client.GetLname()}', '{client.GetStreetname()}', '{client.GetHousenumber()}', '{client.GetZipcode()}', '{client.GetCity()}', '{client.GetEmail()}', '{client.GetPhone()}');"
+            query = f"INSERT INTO 'client' VALUES (NULL, '{client.GetFname()}', '{client.GetLname()}', '{client.GetStreetname()}', '{client.GetHousenumber()}', '{client.GetZipcode()}', '{client.GetCity()}', '{client.GetEmail()}', '{client.GetPhone()}');"
             cursor.execute(query)
             self.__db.commit()
             cursor.close()
