@@ -74,6 +74,7 @@ class Navigator:
         options = [
             ('Search by name', self.SearchClientByName),
             ('Search by email', self.SearchClientByEmail),
+            ('Show all Clients', self.ShowClients),
             ('RETURN', self.skip)
         ]
 
@@ -84,6 +85,7 @@ class Navigator:
         options = [
             ('Search by name', lambda: self.SearchUserByName('advisor')),
             ('Search by username', lambda: self.SearchUserByUsername('advisor')),
+            ('Show all Advisors', lambda: self.ShowAllUsers('advisor')),
             ('RETURN', self.skip)
         ]
 
@@ -94,6 +96,7 @@ class Navigator:
         options = [
             ('Search by name',lambda: self.SearchUserByName('admin')),
             ('Search by username', lambda: self.SearchUserByUsername('admin')),
+            ('Show all Admins', lambda: self.ShowAllUsers('admin')),
             ('RETURN', self.skip)
         ]
 
@@ -255,6 +258,19 @@ class Navigator:
             else:
                 print('\n ERROR: No users containing this username found, please try again.')
 
+    def ShowAllUsers(self, role):
+        while True:
+            #print("\n Please enter name to search for or type 'exit' to leave\n")
+            #userinput = input(" Username: ")
+            #if userinput == 'exit':
+            #    return
+            users = self.userController.GetAllUsers(role)
+            if len(users) != 0:
+                self.userListMenu(users)
+                return
+            else:
+                print('\n ERROR: No users found, please try again.')
+
     def SearchClientByName(self):
         while True:
             print("\n Please enter name to search for or type 'exit' to leave\n")
@@ -281,6 +297,18 @@ class Navigator:
             else:
                 print('\n ERROR: No clients containing this email found, please try again.')
 
+    def ShowClients(self):
+        while True:
+            #print("\n Please enter name to search for or type 'exit' to leave\n")
+            #userinput = input(" Name: ")
+            #if userinput == 'exit':
+            #    return
+            clients = self.clientController.GetAllClients()
+            if len(clients) != 0:
+                self.clientListMenu(clients)
+                return
+            else:
+                print('\n ERROR: No clients found, please try again.')
 
     #TODO layout verbeteren
     def userListMenu(self, users):

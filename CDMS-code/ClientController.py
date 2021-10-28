@@ -62,6 +62,19 @@ class ClientController:
         except Exception as e:
             print("ClientController Line 56: " , e)
 
+    def GetAllClients(self):
+        try:
+            clientList = []
+            cursor = self.__db.cursor()
+            query = f"SELECT * FROM 'client'"
+            cursor.execute(query)
+            dbData = cursor.fetchall()
+            for client in dbData:
+                clientList.append(Client(client[0], client[1], client[2], client[3], client[4], client[5], client[6], client[7], client[8]))
+            return clientList
+        except Exception as e:
+            print("ClientController Line 56: " , e)
+
     def GetClientByEmail(self, param):
         try:
             clientList = []
@@ -106,7 +119,7 @@ class ClientController:
     def __DelClient(self, client):
         try:
             cursor = self.__db.cursor()
-            query = f"DELETE FROM 'client' WHERE firstname = '{client.GetFname()}' AND lastname = '{client.GetLname}'"
+            query = f"DELETE FROM 'client' WHERE id = '{client.GetId()}'"
             cursor.execute(query)
             self.__db.commit()
             return True

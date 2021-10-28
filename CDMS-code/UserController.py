@@ -90,6 +90,19 @@ class UserController:
         except Exception as e:
             print("Usercontroller Line 88: " , e)
 
+    def GetAllUsers(self, role):
+        try:
+            userList = []
+            cursor = self.__db.cursor()
+            query = f"SELECT * FROM 'user' WHERE role = '{role}'"
+            cursor.execute(query)
+            dbData = cursor.fetchall()
+            for user in dbData:
+                userList.append(User(user[0], user[1], user[2], user[3], user[4], user[5], user[6]))
+            return userList
+        except Exception as e:
+            print("Usercontroller Line 88: " , e)
+
     def NewTempPassword(self):
         chars = '''0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ~!@#$%^&*_-+=`|\(){}[]:;'<>,.?/'''
         temppassword = f'{chars[randint(0,9)]}{chars[randint(0,9)]}{chars[randint(10,35)]}{chars[randint(10,35)]}{chars[randint(36,61)]}{chars[randint(36,61)]}{chars[randint(62,92)]}{chars[randint(62,92)]}'
