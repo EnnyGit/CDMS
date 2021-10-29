@@ -127,10 +127,9 @@ class Navigator:
                 ('Email address:      {}'.format(self.currentClient.GetEmail()), lambda: self.clientView.inputEmail(self.currentClient)),
                 ('Phone number:       {}'.format(self.currentClient.GetPhone()), lambda: self.clientView.inputPhone(self.currentClient)),
                 ('CONFIRM', lambda: self.confirmNewClient()),
-                #('CONFIRM', lambda: self.clientController.Save(self.currentClient)), #TODO return to main menu?
                 ('RETURN', self.skip)
             ]
-            exit = self.switchfunctionInput(options, [9,10])
+            exit = self.switchfunctionInput(options, [10])
             if exit == True:
                 return
 
@@ -216,7 +215,7 @@ class Navigator:
                 ('Delete client', lambda: self.confirmDeleteClient(client)),
                 ('RETURN', self.skip)
             ]
-            exit = self.switchfunctionInput(options, [9, 10, 11])
+            exit = self.switchfunctionInput(options, [11])
             if exit == True:
                 return
 
