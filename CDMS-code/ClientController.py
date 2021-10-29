@@ -92,8 +92,10 @@ class ClientController:
         if self.__isValid(client):
             if self.__sendToDatabase(client):
                 print(f"Client {client.GetFname()} {client.GetLname()} was registered successfully")
+                return True
         else:
             print(" INFO: Please fill in all the fields!\n")
+            return False
             
 
     def __isValid(self, client):
@@ -111,10 +113,13 @@ class ClientController:
                         description=f"Client is deleted",
                         information=f"Client \"{client.GetFname()} {client.GetLname()}\" is deleted"
                     ))
+                    return True
             else:
                 print(" INFO: Client with these credentials does not exist!\n")
+                return False
         else:
             print(" INFO: Please write a firstname and a lastname\n")
+            return False
 
     def __DelClient(self, client):
         try:

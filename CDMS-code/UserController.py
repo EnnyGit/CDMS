@@ -33,10 +33,13 @@ class UserController:
                 user.SetRole(role)
                 if self.__sendToDatabase(user):
                     print(f"User {user.GetFname()} {user.GetLname()} was registered successfully")
+                    return True
             else:
                 print("Please fill in all the fields!")
+                return False
         else:
             print("Username already exists, please try a new one.")
+            return False
 
     def UpdateUser(self, user):
         query = f"UPDATE 'user' SET firstname = '{user.GetFname()}', lastname = '{user.GetLname()}', username = '{user.GetUsername()}', password = '{user.GetPassword()}' WHERE id = '{user.GetId()}'"

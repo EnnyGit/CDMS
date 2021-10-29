@@ -84,10 +84,13 @@ class AccountController:
                         description=f"{user.GetRole()} user is deleted",
                         information=f"User \"{user.GetUsername()}\" is deleted"
                     ))
+                    return True
             else:
                 print(" INFO: User with these credentials does not exist!\n")
+                return False
         else:
             print(" INFO: Please write a username and a password\n")
+            return False
 
     def __DelUser(self, user):
         try:

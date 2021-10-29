@@ -105,8 +105,6 @@ class Navigator:
     def administrationMenu(self):
         print('\n----------------[ Tools ]----------------\n')
         options = [
-            #TODO Check list of users/roles
-            ('Check list of users and roles', self.placeHolder),
             ('Make Backup', self.fileController.CreateBackup),
             ('Show Log', self.logview.PrintAllLogs),
             ('RETURN', self.skip)
@@ -128,12 +126,21 @@ class Navigator:
                 ('City:               {}'.format(self.currentClient.GetCity()), lambda: self.addCity()),
                 ('Email address:      {}'.format(self.currentClient.GetEmail()), lambda: self.clientView.inputEmail(self.currentClient)),
                 ('Phone number:       {}'.format(self.currentClient.GetPhone()), lambda: self.clientView.inputPhone(self.currentClient)),
-                ('CONFIRM', lambda: self.clientController.Save(self.currentClient)), #TODO return to main menu?
+                ('CONFIRM', lambda: self.confirmNewClient()),
+                #('CONFIRM', lambda: self.clientController.Save(self.currentClient)), #TODO return to main menu?
                 ('RETURN', self.skip)
             ]
             exit = self.switchfunctionInput(options, [9,10])
             if exit == True:
                 return
+
+    def confirmNewClient(self):
+        if self.clientController.Save(self.currentClient) == True:
+            self.mainMenu()
+        else:
+            self.registerNewClient()
+
+
         
     def registerNewUser(self, role):
         self.currentUser = User()
@@ -148,12 +155,18 @@ class Navigator:
                 (f'Password:         {self.currentUser.GetPassword()}', lambda: self.userView.inputPassword(self.currentUser)),
                 (f'First name:       {self.currentUser.GetFname()}', lambda: self.userView.inputFname(self.currentUser)),
                 (f'Last name:        {self.currentUser.GetLname()}', lambda: self.userView.inputLname(self.currentUser)),
-                ('CONFIRM', lambda: self.userController.Save(self.currentUser, role)),
+                ('CONFIRM', lambda: self.confirmNewUser(role)),
                 ('RETURN', self.skip)
             ]
-            exit = self.switchfunctionInput(options, [5,6])
+            exit = self.switchfunctionInput(options, [6])
             if exit == True:
                 return
+
+    def confirmNewUser(self, role):
+        if self.userController.Save(self.currentUser, role) == True:
+            self.mainMenu()
+        else:
+            self.registerNewUser(role)
 
     def modifyUser(self, user):
         self.currentUser = user
@@ -164,16 +177,28 @@ class Navigator:
                 print('-----Modify administrator-----')
             options = [
                 (f'Username:         {self.currentUser.GetUsername()}', lambda: self.userView.inputUsername(user)),
-                (f'First name:       {self.currentUser.GetFname()}', lambda: self.userView.inputUsername(user)),
-                (f'Last name:        {self.currentUser.GetLname()}', lambda: self.userView.inputUsername(user)),
+                (f'First name:       {self.currentUser.GetFname()}', lambda: self.userView.inputFname(user)),
+                (f'Last name:        {self.currentUser.GetLname()}', lambda: self.userView.inputLname(user)),
                 (f'Reset to temporary password', lambda: self.userController.SetTempPassword(user)),
-                ('Confirm changes', lambda: self.userController.UpdateUser(user)),
-                ('Delete user', lambda: self.accountController.Remove(user)),
+                ('Confirm changes', lambda: self.confirmModifyUser(user)),
+                ('Delete user', lambda: self.confirmDeleteUser(user)),
                 ('Return to search', self.skip)
             ]
-            exit = self.switchfunctionInput(options, False)
+            exit = self.switchfunctionInput(options, [7])
             if exit == True:
                 return
+
+    def confirmDeleteUser(self, user):
+        if self.accountController.Remove(user) == True:
+            self.mainMenu()
+        else:
+            self.modifyUser(user)
+
+    def confirmModifyUser(self, user):
+        if self.userController.UpdateUser(user) == True:
+            self.mainMenu()
+        else:
+            self.modifyUser(user)
 
     def modifyClient(self, client):
         while True:
@@ -188,30 +213,25 @@ class Navigator:
                 ('Email address:     {}'.format(client.email), lambda: self.clientView.inputEmail(client)),
                 ('Phone number:      {}'.format(client.phone), lambda: self.clientView.inputPhone(client)),
                 ('Confirm changes', lambda: self.clientController.Save(self.currentClient)), #TODO return to main menu?
-                ('Delete client', lambda: self.clientController.Remove(client)),
-                ('Return to main menu', self.skip)
+                ('Delete client', lambda: self.confirmDeleteClient(client)),
+                ('RETURN', self.skip)
             ]
             exit = self.switchfunctionInput(options, [9, 10, 11])
             if exit == True:
                 return
 
-    # TODO Remove?
-    # def addAddress(self):
-    #     while True:
-    #         print('\n------------------------[ Address ]-----------------------')
-    #         print('\nChoose the option of the value you want to change, return when you\'re done\n')
-    #         options = [
-    #             ('Streetname:        {}'.format(self.currentClient.address.streetname), lambda: self.addressView.inputStreetName(self.currentClient.address)),
-    #             ('Housenumber:       {}'.format(self.currentClient.address.housenumber), lambda: self.addressView.inputHouseNumber(self.currentClient.address)),
-    #             ('Zipcode:           {}'.format(self.currentClient.address.zipcode), lambda: self.addressView.inputZipCode(self.currentClient.address)),
-    #             ('City:              {}'.format(self.currentClient.address.city), self.addCity),
-    #             ('RETURN', self.skip)
-    #         ]
-    #         exit = self.switchfunctionInput(options, False)
-    #         if exit == True:
-    #             return
+    def confirmDeleteClient(self, client):
+        if self.clientController.Remove(client) == True:
+            self.mainMenu()
+        else:
+            self.modifyClient(client)
 
-    #TODO Rework with lambda
+    def confirmModifyClient(self, client):
+        if self.clientController.Save(client) == True:
+            self.mainMenu()
+        else:
+            self.modifyClient(client)
+
     def addCity(self):
         while True:
             print('\n -------------------------[ City ]-------------------------\n')
@@ -228,7 +248,7 @@ class Navigator:
                 ("San Jose", lambda: self.currentClient.SetCity("San Jose"))
             ]
             options.append(('RETURN', self.skip))
-            exit = self.switchfunctionInput(options, [1,2,3,4,5,6,7,8,9,10,11])
+            exit = self.switchfunctionInput(options, [11])
             if exit == True:
                 return
 
